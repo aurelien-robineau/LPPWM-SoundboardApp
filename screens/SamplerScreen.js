@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native'
 
 import Sampler from '../components/Sampler'
 
+
 const SamplerScreen = () => {
 	return (
 		<View style={styles.container}>

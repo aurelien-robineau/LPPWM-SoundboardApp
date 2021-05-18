@@ -5,51 +5,51 @@ export const defaultConfig = {
 	numberOfColumns: 3,
 	pads: [
 		{
-			color: colors.cyan,
+			color: 'cyan',
 			soundFile: require("../assets/sounds/openhat-808.wav")
 		},
 		{
-			color: colors.blue,
+			color: 'blue',
 			soundFile: require("../assets/sounds/hihat-808.wav")
 		},
 		{
-			color: colors.pink,
+			color: 'pink',
 			soundFile: require("../assets/sounds/snare-808.wav")
 		},
 		{
-			color: colors.purple,
+			color: 'purple',
 			soundFile: require("../assets/sounds/clap-808.wav")
 		},
 		{
-			color: colors.orange,
+			color: 'orange',
 			soundFile: require("../assets/sounds/tom-rototom.wav")
 		},
 		{
-			color: colors.red,
+			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},
 		{
-			color: colors.red,
+			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},
 		{
-			color: colors.red,
+			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},
 		{
-			color: colors.red,
+			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},
 				{
-			color: colors.red,
+			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},
 		{
-			color: colors.red,
+			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},
 		{
-			color: colors.red,
+			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		}
 	]

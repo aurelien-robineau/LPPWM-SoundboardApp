@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { View, TouchableOpacity, useWindowDimensions, StyleSheet } from 'react-native'
+import { View, TouchableOpacity, Image, useWindowDimensions, StyleSheet } from 'react-native'
 import { Icon } from 'react-native-elements'
 
-import config from '../../config';
+import config from '../../config'
+
+const padLightImage = require('../../assets/img/pad_light.png')
 
 const ColorInput = ({ items, value, onChange }) => {
 	const screenWidth = useWindowDimensions().width
@@ -49,6 +51,7 @@ const ColorInput = ({ items, value, onChange }) => {
 						{ color === key &&
 							<Icon name="done" size={15} color={config.colors.main} style={styles.selectedIcon}/>
 						}
+						<Image source={padLightImage} style={styles.lightImage} />
 					</View>
 				</TouchableOpacity>
 			))}
@@ -75,8 +78,17 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderColor: 'white',
+		borderRadius: 3,
 		width: '100%',
 		height: '100%'
+	},
+
+	lightImage: {
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+		opacity: 0.2,
+		borderRadius: 3
 	}
 })
 

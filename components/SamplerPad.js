@@ -35,7 +35,7 @@ const SamplerPad = ({ size, color, soundFile, onEdit }) => {
 			onLongPress={() => onEdit ? onEdit() : null}
 			activeOpacity={soundFile ? 0.5 : 1}
 		>
-			<View style={[styles.pad, { width: size, height: size, backgroundColor: soundFile ? color : colors.off }]}>
+			<View style={[styles.pad, { width: size, height: size, backgroundColor: soundFile ? colors[color] : colors.off }]}>
 				<Image source={padLightImage} style={styles.lightImage} />
 			</View>
 		</TouchableOpacity>

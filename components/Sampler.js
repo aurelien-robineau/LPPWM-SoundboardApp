@@ -8,6 +8,7 @@ import { defaultConfig } from '../constants/sampler'
 
 const Sampler = ({ numberOfRows, numberOfColumns }) => {
 	const [pads, setPads] = useState(null)
+	const [selectedPad, setSelectedPad] = useState(null)
 	const [modalVisible, setModalVisible] = useState(false)
 
 	const screenWidth = useWindowDimensions().width
@@ -36,12 +37,15 @@ const Sampler = ({ numberOfRows, numberOfColumns }) => {
 			<View style={styles.sampler}>
 				{ pads && pads.map(pad => (
 					<View style={styles.padWrapper} key={pad.id}>
-						<SamplerPad {...pad} onEdit={() => setModalVisible(true)} />
+						<SamplerPad {...pad} onEdit={() => {
+							setSelectedPad(pad)
+							setModalVisible(true)
+						}} />
 					</View>
 				)) }
 			</View>
 
-			<EditPadModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+			<EditPadModal pad={selectedPad} visible={modalVisible} onClose={() => setModalVisible(false)} />
 		</>
 	)
 }

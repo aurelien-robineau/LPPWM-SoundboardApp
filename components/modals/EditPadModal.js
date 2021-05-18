@@ -7,15 +7,20 @@ import ColorInput from '../inputs/ColorInput'
 import config from '../../config'
 import { colors } from '../../constants/pads'
 
-const EditPadModal = ({ visible, onClose }) => {
+const EditPadModal = ({ visible, pad, onClose }) => {
 	const availableColors = {...colors}
 	delete availableColors.off
 
 	const [isVisible, setIsVisible] = useState(false)
+	const [currentPad, setCurrentPad] = useState(false)
 
 	useEffect(() => {
 		setIsVisible(visible)
 	}, [visible])
+
+	useEffect(() => {
+		setCurrentPad(pad)
+	}, [pad])
 
     return (
 		<Modal
@@ -34,7 +39,7 @@ const EditPadModal = ({ visible, onClose }) => {
 					<Text style={styles.inputLabel}>Couleur</Text>
 					<ColorInput
 						items={availableColors}
-						value="orange"
+						value={currentPad.color}
 					/>
 				</View>
 			</View>

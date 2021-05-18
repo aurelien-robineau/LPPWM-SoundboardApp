@@ -1,5 +1,3 @@
-import { colors } from './pads';
-
 export const defaultConfig = {
 	numberOfRows: 4,
 	numberOfColumns: 3,
@@ -40,7 +38,7 @@ export const defaultConfig = {
 			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},
-				{
+		{
 			color: 'red',
 			soundFile: require("../assets/sounds/kick-808.wav")
 		},

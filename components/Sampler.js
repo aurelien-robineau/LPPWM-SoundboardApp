@@ -17,6 +17,10 @@ const Sampler = ({ numberOfRows, numberOfColumns }) => {
 		generatePads()
 	}, [numberOfRows, numberOfColumns])
 
+	const getPadSize = () => {
+		return (screenWidth - 20) / numberOfColumns - ((numberOfColumns - 1) * 5) / numberOfColumns 
+	}
+
 	const generatePads = async () => {
 		const pads = []
 		const numberOfPads = numberOfRows * numberOfColumns
@@ -24,7 +28,7 @@ const Sampler = ({ numberOfRows, numberOfColumns }) => {
 		for (let i = 0; i < numberOfPads; i++) {
 			pads.push({
 				id: Date.now() + i,
-				size: screenWidth / numberOfColumns - 10,
+				size: getPadSize(),
 				...defaultConfig.pads[i]
 			})
 		}

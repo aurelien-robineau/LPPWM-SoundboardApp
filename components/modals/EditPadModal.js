@@ -12,7 +12,7 @@ const EditPadModal = ({ visible, pad, onClose }) => {
 	delete availableColors.off
 
 	const [isVisible, setIsVisible] = useState(false)
-	const [currentPad, setCurrentPad] = useState(false)
+	const [currentPad, setCurrentPad] = useState(null)
 
 	useEffect(() => {
 		setIsVisible(visible)
@@ -39,7 +39,7 @@ const EditPadModal = ({ visible, pad, onClose }) => {
 					<Text style={styles.inputLabel}>Couleur</Text>
 					<ColorInput
 						items={availableColors}
-						value={currentPad.color}
+						value={currentPad?.color}
 					/>
 				</View>
 			</View>

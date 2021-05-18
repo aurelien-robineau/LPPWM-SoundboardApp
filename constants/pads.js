@@ -6,7 +6,8 @@ export const colors = {
 	cyan: '#3bcde3',
 	blue: '#3466ed',
 	purple: '#9d34ed',
-	pink: '#ed2bc9'
+	pink: '#ed2bc9',
+	off: '#636363'
 }
 
 export const defaultConfig = {

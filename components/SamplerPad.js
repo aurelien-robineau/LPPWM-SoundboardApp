@@ -14,9 +14,9 @@ const SamplerPad = ({ size, color, soundFile }) => {
 	}, [sound])
 
 	const playSound = async () => {
-			const { sound } = await Audio.Sound.createAsync(soundFile)
-			setSound(sound)
-			await sound.playAsync()
+		const { sound } = await Audio.Sound.createAsync(soundFile)
+		setSound(sound)
+		sound.playAsync()
 	}
 
 	return (

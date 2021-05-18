@@ -1,10 +1,10 @@
 export const colors = {
-	orange: '#fcba03',
 	red: '#ff3d3d',
+	orange: '#fcba03',
 	yellow: '#ffec3d',
 	green: '#3ee33b',
-	cyan: '#3bcde3',
 	blue: '#3466ed',
+	cyan: '#3bcde3',
 	purple: '#9d34ed',
 	pink: '#ed2bc9',
 	off: '#636363'

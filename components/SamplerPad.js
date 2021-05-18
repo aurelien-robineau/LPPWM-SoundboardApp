@@ -6,7 +6,7 @@ import { colors } from '../constants/pads';
 
 const padLightImage = require('../assets/img/pad_light.png')
 
-const SamplerPad = ({ size, color, soundFile }) => {
+const SamplerPad = ({ size, color, soundFile, onEdit }) => {
 	const [sound, setSound] = useState(null)
 
 	useEffect(() => {
@@ -25,8 +25,16 @@ const SamplerPad = ({ size, color, soundFile }) => {
 		}
 	}
 
+	const editPad = () => {
+		console.log('edit')
+	}
+
 	return (
-		<TouchableOpacity onPress={playSound} activeOpacity={soundFile ? 0.5 : 1}>
+		<TouchableOpacity
+			onPress={playSound}
+			onLongPress={() => onEdit ? onEdit() : null}
+			activeOpacity={soundFile ? 0.5 : 1}
+		>
 			<View style={[styles.pad, { width: size, height: size, backgroundColor: soundFile ? color : colors.off }]}>
 				<Image source={padLightImage} style={styles.lightImage} />
 			</View>

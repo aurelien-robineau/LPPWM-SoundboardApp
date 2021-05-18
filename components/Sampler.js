@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { View, useWindowDimensions, StyleSheet } from 'react-native'
 
 import SamplerPad from './SamplerPad'
+import EditPadModal from './modals/EditPadModal'
 
 import { defaultConfig } from '../constants/sampler'
 
 const Sampler = ({ numberOfRows, numberOfColumns }) => {
 	const [pads, setPads] = useState(null)
+	const [modalVisible, setModalVisible] = useState(false)
 
 	const screenWidth = useWindowDimensions().width
 
@@ -30,13 +32,17 @@ const Sampler = ({ numberOfRows, numberOfColumns }) => {
 	}
 
 	return (
-		<View style={styles.sampler}>
-			{ pads && pads.map(pad => (
-				<View style={styles.padWrapper} key={pad.id}>
-					<SamplerPad {...pad} />
-				</View>
-			)) }
-		</View>
+		<>
+			<View style={styles.sampler}>
+				{ pads && pads.map(pad => (
+					<View style={styles.padWrapper} key={pad.id}>
+						<SamplerPad {...pad} onEdit={() => setModalVisible(true)} />
+					</View>
+				)) }
+			</View>
+
+			<EditPadModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+		</>
 	)
 }
 

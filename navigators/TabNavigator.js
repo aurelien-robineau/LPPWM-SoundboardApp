@@ -1,7 +1,5 @@
 import React from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
 import { Icon } from 'react-native-elements'
 
 import SamplerScreen from '../screens/SamplerScreen'

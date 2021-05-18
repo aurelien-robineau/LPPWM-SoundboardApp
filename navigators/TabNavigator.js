@@ -19,7 +19,7 @@ const TabNavigator = () => {
 					let iconName;
 
 					if (route.name === 'Sampler') {
-						iconName = 'play-arrow'
+						iconName = 'apps'
 					}
 					else if (route.name === 'Library') {
 						iconName = 'library-music'
@@ -38,7 +38,7 @@ const TabNavigator = () => {
 			activeColor={config.colors.text}
   			inactiveColor="gray"
 		>
-			<Tab.Screen name="Sampler" component={SamplerScreen} options={{ title : 'Sampler' }} />
+			<Tab.Screen name="Sampler" component={SamplerScreen} options={{ title : 'Pad' }} />
 			<Tab.Screen name="Library" component={LibraryScreen} options={{ title : 'Bibliothèque' }} />
 		</Tab.Navigator>
 	)

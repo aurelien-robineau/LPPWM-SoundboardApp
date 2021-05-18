@@ -3,12 +3,17 @@ import { View, StyleSheet } from 'react-native'
 
 import Sampler from '../components/Sampler'
 
+import { defaultConfig } from '../constants/sampler'
+
 
 const SamplerScreen = () => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.samplerContainer}>
-				<Sampler numberOfRows={3} numberOfColumns={3} />
+				<Sampler
+					numberOfRows={defaultConfig.numberOfRows}
+					numberOfColumns={defaultConfig.numberOfColumns}
+				/>
 			</View>
 		</View>
 	)

@@ -3,9 +3,9 @@ import { View, useWindowDimensions, StyleSheet } from 'react-native'
 
 import SamplerPad from './SamplerPad'
 
-import { defaultColor } from '../constants/padColors'
+import { defaultConfig } from '../constants/sampler'
 
-const Sampler = ({ numberOfRows, numberOfColumns}) => {
+const Sampler = ({ numberOfRows, numberOfColumns }) => {
 	const [pads, setPads] = useState(null)
 
 	const screenWidth = useWindowDimensions().width
@@ -22,7 +22,7 @@ const Sampler = ({ numberOfRows, numberOfColumns}) => {
 			pads.push({
 				id: Date.now() + i,
 				size: screenWidth / numberOfColumns - 10,
-				color: defaultColor
+				...defaultConfig.pads[i]
 			})
 		}
 

@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native'
 import Sampler from '../components/Sampler'
 
 import { defaultConfig } from '../constants/sampler'
+import config from '../config'
 
 
 const SamplerScreen = () => {
@@ -22,7 +23,8 @@ const SamplerScreen = () => {
 const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 10,
-		height: '100%'
+		height: '100%',
+		backgroundColor: config.colors.background
 	},
 
 	samplerContainer: {

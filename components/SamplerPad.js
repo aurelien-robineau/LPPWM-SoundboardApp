@@ -26,7 +26,7 @@ const SamplerPad = ({ size, color, soundFile }) => {
 	}
 
 	return (
-		<TouchableOpacity onPress={playSound} activeOpacity={soundFile ? 0.8 : 1}>
+		<TouchableOpacity onPress={playSound} activeOpacity={soundFile ? 0.5 : 1}>
 			<View style={[styles.pad, { width: size, height: size, backgroundColor: soundFile ? color : colors.off }]}>
 				<Image source={padLightImage} style={styles.lightImage} />
 			</View>
@@ -37,7 +37,8 @@ const SamplerPad = ({ size, color, soundFile }) => {
 const styles = StyleSheet.create({
 	pad: {
 		borderRadius: 5,
-		elevation: 5,
+		borderColor: 'black',
+		borderWidth: 1
 	},
 
 	lightImage: {

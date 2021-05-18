@@ -1,11 +1,15 @@
 import React from 'react'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+
 import { Icon } from 'react-native-elements'
 
 import SamplerScreen from '../screens/SamplerScreen'
 import LibraryScreen from '../screens/LibraryScreen'
 
-const Tab = createBottomTabNavigator()
+import config from '../config';
+
+const Tab = createMaterialBottomTabNavigator()
 
 const TabNavigator = () => {
   return (
@@ -21,13 +25,18 @@ const TabNavigator = () => {
 						iconName = 'library-music'
 					}
 
-					return <Icon name={iconName} size={30} color={focused ? 'black' : 'gray'} />;
+					return (
+						<Icon
+							name={iconName}
+							size={25}
+							color={focused ? config.colors.text : 'gray'}
+						/>
+					)
 				}
 			})}
-			tabBarOptions={{
-				activeTintColor: 'black',
-				inactiveTintColor: 'gray'
-			}}
+			barStyle={{ backgroundColor: config.colors.main }}
+			activeColor={config.colors.text}
+  			inactiveColor="gray"
 		>
 			<Tab.Screen name="Sampler" component={SamplerScreen} options={{ title : 'Sampler' }} />
 			<Tab.Screen name="Library" component={LibraryScreen} options={{ title : 'Bibliothèque' }} />

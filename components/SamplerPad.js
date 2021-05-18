@@ -21,12 +21,8 @@ const SamplerPad = ({ size, color, soundFile, onEdit }) => {
 		if (soundFile) {
 			const { sound } = await Audio.Sound.createAsync(soundFile)
 			setSound(sound)
-			sound.playAsync()
+			await sound.playAsync()
 		}
-	}
-
-	const editPad = () => {
-		console.log('edit')
 	}
 
 	return (

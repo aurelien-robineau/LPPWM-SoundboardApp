@@ -10,18 +10,28 @@ const SamplerPad = ({ size, color, soundFile, onEdit }) => {
 	const [sound, setSound] = useState(null)
 
 	useEffect(() => {
-		return () => {
-			if (sound) {
-				sound.unloadAsync()
-			}
-		};
-	}, [sound])
+		loadSound()
+	}, [soundFile])
 
-	const playSound = async () => {
+	useEffect(() => unloadSound, [sound])
+
+	const loadSound = async () => {
+		unloadSound()
 		if (soundFile) {
 			const { sound } = await Audio.Sound.createAsync(soundFile)
 			setSound(sound)
-			await sound.playAsync()
+		}
+	}
+
+	const unloadSound = () => {
+		if (sound) {
+			sound.unloadAsync()
+		}
+	}
+
+	const playSound = async () => {
+		if (sound) {
+			sound.replayAsync()
 		}
 	}
 
@@ -29,9 +39,9 @@ const SamplerPad = ({ size, color, soundFile, onEdit }) => {
 		<TouchableOpacity
 			onPress={playSound}
 			onLongPress={() => onEdit ? onEdit() : null}
-			activeOpacity={soundFile ? 0.5 : 1}
+			activeOpacity={sound ? 0.5 : 1}
 		>
-			<View style={[styles.pad, { width: size, height: size, backgroundColor: soundFile ? colors[color] : colors.off }]}>
+			<View style={[styles.pad, { width: size, height: size, backgroundColor: sound ? colors[color] : colors.off }]}>
 				<Image source={padLightImage} style={styles.lightImage} />
 			</View>
 		</TouchableOpacity>

@@ -4,10 +4,9 @@ import { View, useWindowDimensions, StyleSheet } from 'react-native'
 import SamplerPad from './SamplerPad'
 import EditPadModal from './modals/EditPadModal'
 
-import { defaultConfig } from '../constants/sampler'
-
-const Sampler = ({ numberOfRows, numberOfColumns }) => {
-	const [pads, setPads] = useState(null)
+const Sampler = ({ numberOfRows, numberOfColumns, padsConfig, show = true }) => {
+	const [pads, setPads] = useState(pads)
+	const [visible, setVisible] = useState(show)
 	const [selectedPad, setSelectedPad] = useState(null)
 	const [modalVisible, setModalVisible] = useState(false)
 
@@ -16,6 +15,10 @@ const Sampler = ({ numberOfRows, numberOfColumns }) => {
 	useEffect(() => {
 		generatePads()
 	}, [numberOfRows, numberOfColumns])
+
+	useEffect(() => {
+		setVisible(show)
+	}, [show])
 
 	const getPadSize = () => {
 		return (screenWidth - 20) / numberOfColumns - ((numberOfColumns - 1) * 5) / numberOfColumns 
@@ -29,7 +32,7 @@ const Sampler = ({ numberOfRows, numberOfColumns }) => {
 			pads.push({
 				id: Date.now() + i,
 				size: getPadSize(),
-				...defaultConfig.pads[i]
+				...padsConfig[i]
 			})
 		}
 
@@ -38,7 +41,7 @@ const Sampler = ({ numberOfRows, numberOfColumns }) => {
 
 	return (
 		<>
-			<View style={styles.sampler}>
+			<View style={[styles.sampler, visible ? null : styles.hidden]}>
 				{ pads && pads.map(pad => (
 					<View style={styles.padWrapper} key={pad.id}>
 						<SamplerPad {...pad} onEdit={() => {
@@ -61,6 +64,10 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
 		width: '100%'
+	},
+
+	hidden: {
+		display: 'none'
 	},
 
 	padWrapper: {

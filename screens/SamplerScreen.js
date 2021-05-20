@@ -4,35 +4,48 @@ import { useSelector } from 'react-redux'
 
 import Sampler from '../components/Sampler'
 import SamplerCard from '../components/SamplerCard'
+import EditPadModal from '../components/modals/EditPadModal'
 
 import config from '../config'
 
 const SamplerScreen = () => {
 	const [selectedSamplerIndex, setSelectedSamplerIndex] = useState(0)
+	const [modalVisible, setModalVisible] = useState(false)
+	const [selectedPad, setSelectedPad] = useState(null)
 
 	const samplers = useSelector(state => state.samplers)
 
+	const openEditPadModal = (pad) => {
+		setSelectedPad(pad)
+		setModalVisible(true)
+	}
+
 	return (
-		<View style={styles.container}>
-			<View style={styles.samplerSelectorContainer}>
-				{ samplers.map((sampler, index) => (
-					<SamplerCard key={index} name={sampler.name} selected={selectedSamplerIndex === index} onPress={() => {
-						setSelectedSamplerIndex(index)
-					}}/>
-				))}
+		<>
+			<View style={styles.container}>
+				<View style={styles.samplerSelectorContainer}>
+					{ samplers.map((sampler, index) => (
+						<SamplerCard key={index} name={sampler.name} selected={selectedSamplerIndex === index} onPress={() => {
+							setSelectedSamplerIndex(index)
+						}}/>
+					))}
+				</View>
+				<View style={styles.samplerContainer}>
+					{ samplers.map((sampler, index) => (
+						<Sampler
+							key={index}
+							show={index === selectedSamplerIndex}
+							numberOfRows={sampler.numberOfRows}
+							numberOfColumns={sampler.numberOfColumns}
+							padsConfig={sampler.pads}
+							onPadEdit={pad => openEditPadModal(pad)}
+						/>
+					))}
+				</View>
 			</View>
-			<View style={styles.samplerContainer}>
-				{ samplers.map((sampler, index) => (
-					<Sampler
-						key={index}
-						show={index === selectedSamplerIndex}
-						numberOfRows={sampler.numberOfRows}
-						numberOfColumns={sampler.numberOfColumns}
-						padsConfig={sampler.pads}
-					/>
-				))}
-			</View>
-		</View>
+			
+			<EditPadModal pad={selectedPad} visible={modalVisible} onClose={() => setModalVisible(false)} />
+		</>
 	)
 }
 

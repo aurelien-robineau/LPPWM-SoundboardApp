@@ -3,35 +3,35 @@ import { View, useWindowDimensions, StyleSheet } from 'react-native'
 
 import SamplerPad from './SamplerPad'
 
-const Sampler = ({ numberOfRows, numberOfColumns, padsConfig, onPadEdit, show = true }) => {
+const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	const [pads, setPads] = useState(pads)
 	const [visible, setVisible] = useState(show)
-	const [selectedPad, setSelectedPad] = useState(null)
-	const [modalVisible, setModalVisible] = useState(false)
 
 	const screenWidth = useWindowDimensions().width
 
 	useEffect(() => {
 		generatePads()
-	}, [numberOfRows, numberOfColumns])
+	}, [sampler])
 
 	useEffect(() => {
 		setVisible(show)
 	}, [show])
 
 	const getPadSize = () => {
-		return (screenWidth - 20) / numberOfColumns - ((numberOfColumns - 1) * 5) / numberOfColumns 
+		return (screenWidth - 20) / sampler.numberOfColumns - ((sampler.numberOfColumns - 1) * 5) / sampler.numberOfColumns 
 	}
 
 	const generatePads = async () => {
 		const pads = []
-		const numberOfPads = numberOfRows * numberOfColumns
+		const numberOfPads = sampler.numberOfRows * sampler.numberOfColumns
 
 		for (let i = 0; i < numberOfPads; i++) {
 			pads.push({
 				id: Date.now() + i,
 				size: getPadSize(),
-				...padsConfig[i]
+				index: i,
+				samplerIndex: index,
+				...sampler.pads[i]
 			})
 		}
 

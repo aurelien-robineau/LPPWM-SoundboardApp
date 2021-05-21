@@ -1,23 +1,33 @@
 import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Sampler from '../components/Sampler'
 import SamplerCard from '../components/SamplerCard'
 import EditPadModal from '../components/modals/EditPadModal'
 
 import config from '../config'
+import { samplersActions } from '../store/samplersSlice'
 
 const SamplerScreen = () => {
 	const [selectedSamplerIndex, setSelectedSamplerIndex] = useState(0)
 	const [modalVisible, setModalVisible] = useState(false)
 	const [selectedPad, setSelectedPad] = useState(null)
 
-	const samplers = useSelector(state => state.samplers)
+	const dispatch = useDispatch()
+	const samplers = useSelector(state => state.samplers.samplers)
 
 	const openEditPadModal = (pad) => {
 		setSelectedPad(pad)
 		setModalVisible(true)
+	}
+
+	const updatePad = (pad, newPad) => {
+		dispatch(samplersActions.updatePad({
+			samplerIndex: pad.samplerIndex,
+			padIndex: pad.index,
+			newPad
+		}))
 	}
 
 	return (
@@ -34,17 +44,21 @@ const SamplerScreen = () => {
 					{ samplers.map((sampler, index) => (
 						<Sampler
 							key={index}
+							sampler={sampler}
+							index={index}
 							show={index === selectedSamplerIndex}
-							numberOfRows={sampler.numberOfRows}
-							numberOfColumns={sampler.numberOfColumns}
-							padsConfig={sampler.pads}
 							onPadEdit={pad => openEditPadModal(pad)}
 						/>
 					))}
 				</View>
 			</View>
 			
-			<EditPadModal pad={selectedPad} visible={modalVisible} onClose={() => setModalVisible(false)} />
+			<EditPadModal
+				pad={selectedPad}
+				visible={modalVisible}
+				onClose={() => setModalVisible(false)}
+				onSave={newPad => updatePad(selectedPad, newPad)}
+			/>
 		</>
 	)
 }

@@ -1,6 +1,8 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 import { defaultConfig } from '../constants/sampler'
 
-export default initialState = {
+const initialState = {
 	samplers: [
 		{name: 'A', ...defaultConfig},
 		{name: 'B', numberOfRows: 2,
@@ -26,3 +28,19 @@ export default initialState = {
 		{name: 'C', ...defaultConfig}
 	]
 }
+
+const samplersSlice = createSlice({
+	name: 'samplers',
+	initialState,
+	reducers: {
+		updatePad(state, action) {
+			console.log(action.payload)
+			const { samplerIndex, padIndex, newValue } = action.payload
+			state.samplers[samplerIndex].pads[padIndex] = newValue
+		}
+	}
+})
+
+export const samplersActions = samplersSlice.actions
+
+export default samplersSlice.reducer

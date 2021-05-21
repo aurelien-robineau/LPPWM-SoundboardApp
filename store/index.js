@@ -1,15 +1,11 @@
-import { createStore } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 
-import initialState from './default'
+import samplersReducer from './samplersSlice'
 
-const reducer = (state = initialState, action) => {
-	return state
-}
-
-const store = createStore(reducer)
-
-store.subscribe(() => {
-	console.log(store.getState())
+const store = configureStore({
+	reducer: {
+		samplers: samplersReducer
+	}
 })
 
 export default store

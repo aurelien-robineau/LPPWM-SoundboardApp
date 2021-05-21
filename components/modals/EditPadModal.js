@@ -7,20 +7,31 @@ import ColorInput from '../inputs/ColorInput'
 import config from '../../config'
 import { colors } from '../../constants/pads'
 
-const EditPadModal = ({ visible, pad, onClose }) => {
+const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	const availableColors = {...colors}
 	delete availableColors.off
 
 	const [isVisible, setIsVisible] = useState(false)
-	const [currentPad, setCurrentPad] = useState(null)
+
+	const [color, setColor] = useState(pad?.color)
+	const [soundFile, setSoundFile] = useState(pad?.soundFile)
 
 	useEffect(() => {
 		setIsVisible(visible)
 	}, [visible])
 
 	useEffect(() => {
-		setCurrentPad(pad)
+		setColor(pad?.color)
+		setSoundFile(pad?.soundFile)
 	}, [pad])
+
+	const savePad = () => {
+		if (typeof onSave === 'function')
+			onSave({ color, soundFile })
+		
+		if (typeof onClose === 'function')
+			onClose()
+	}
 
     return (
 		<Modal
@@ -34,12 +45,16 @@ const EditPadModal = ({ visible, pad, onClose }) => {
 						<Icon name="arrow-back" size={30} color={config.colors.text}/>
 					</TouchableOpacity>
 					<Text style={styles.title}>Modifier le pad</Text>
+					<TouchableOpacity onPress={savePad}>
+						<Text>Enregistrer</Text>
+					</TouchableOpacity>
 				</View>
 				<View style={styles.body}>
 					<Text style={styles.inputLabel}>Couleur</Text>
 					<ColorInput
 						items={availableColors}
-						value={currentPad?.color}
+						value={color}
+						onChange={setColor}
 					/>
 				</View>
 			</View>

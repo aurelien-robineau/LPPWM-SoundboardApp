@@ -12,5 +12,5 @@ export const colors = {
 
 export const defaultConfig = {
 	color: colors.orange,
-	soundFile: require('../assets/sounds/clap-808.wav')
+	sound: 'default-clap-808'
 }

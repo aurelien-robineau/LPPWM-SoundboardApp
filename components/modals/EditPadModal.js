@@ -14,7 +14,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	const [isVisible, setIsVisible] = useState(false)
 
 	const [color, setColor] = useState(pad?.color)
-	const [soundFile, setSoundFile] = useState(pad?.soundFile)
+	const [sound, setSound] = useState(pad?.sound)
 
 	useEffect(() => {
 		setIsVisible(visible)
@@ -22,12 +22,12 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 
 	useEffect(() => {
 		setColor(pad?.color)
-		setSoundFile(pad?.soundFile)
+		setSound(pad?.sound)
 	}, [pad])
 
 	const savePad = () => {
 		if (typeof onSave === 'function')
-			onSave({ color, soundFile })
+			onSave({ color, sound })
 		
 		if (typeof onClose === 'function')
 			onClose()

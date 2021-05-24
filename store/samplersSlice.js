@@ -1,31 +1,171 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { defaultConfig } from '../constants/sampler'
-
 const initialState = {
 	samplers: [
-		{name: 'A', ...defaultConfig},
-		{name: 'B', numberOfRows: 2,
-	numberOfColumns: 2,
-	pads: [
 		{
-			color: 'cyan',
-			soundFile: require("../assets/sounds/openhat-808.wav")
+			name: 'A',
+			numberOfRows: 4,
+			numberOfColumns: 3,
+			pads: [
+				{
+					color: 'cyan',
+					sound: 'default-openhat-808'
+				},
+				{
+					color: 'blue',
+					sound: 'default-hihat-808'
+				},
+				{
+					color: 'pink',
+					sound: 'default-snare-808'
+				},
+				{
+					color: 'purple',
+					sound: 'default-clap-808'
+				},
+				{
+					color: 'orange',
+					sound: 'default-tom-rototom-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				}
+			]
 		},
 		{
-			color: 'blue',
-			soundFile: require("../assets/sounds/hihat-808.wav")
+			name: 'B', numberOfRows: 2,
+			numberOfColumns: 2,
+			pads: [
+				{
+					color: 'cyan',
+					sound: 'default-openhat-808'
+				},
+				{
+					color: 'blue',
+					sound: 'default-hihat-808'
+				},
+				{
+					color: 'pink',
+					sound: 'default-snare-808'
+				},
+				{
+					color: 'purple',
+					sound: 'default-clap-808'
+				}
+			]
 		},
 		{
-			color: 'pink',
-			soundFile: require("../assets/sounds/snare-808.wav")
-		},
-		{
-			color: 'purple',
-			soundFile: require("../assets/sounds/clap-808.wav")
+			name: 'C',
+			numberOfRows: 5,
+			numberOfColumns: 4,
+			pads: [
+				{
+					color: 'cyan',
+					sound: 'default-openhat-808'
+				},
+				{
+					color: 'blue',
+					sound: 'default-hihat-808'
+				},
+				{
+					color: 'pink',
+					sound: 'default-snare-808'
+				},
+				{
+					color: 'purple',
+					sound: 'default-clap-808'
+				},
+				{
+					color: 'orange',
+					sound: 'default-tom-rototom-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+								{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				}
+			]
 		}
-	]},
-		{name: 'C', ...defaultConfig}
 	]
 }
 
@@ -34,7 +174,6 @@ const samplersSlice = createSlice({
 	initialState,
 	reducers: {
 		updatePad(state, action) {
-			console.log(action.payload)
 			const { samplerIndex, padIndex, newValue } = action.payload
 			state.samplers[samplerIndex].pads[padIndex] = newValue
 		}

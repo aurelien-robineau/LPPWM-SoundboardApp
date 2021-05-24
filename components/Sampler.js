@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { View, useWindowDimensions, StyleSheet } from 'react-native'
+import { useSelector } from 'react-redux'
 
 import SamplerPad from './SamplerPad'
 
 const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	const [pads, setPads] = useState(pads)
 	const [visible, setVisible] = useState(show)
+
+	const sounds = useSelector(state => state.library.sounds)
 
 	const screenWidth = useWindowDimensions().width
 
@@ -21,17 +24,20 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 		return (screenWidth - 20) / sampler.numberOfColumns - ((sampler.numberOfColumns - 1) * 5) / sampler.numberOfColumns 
 	}
 
+	const getSoundById = (id) => {
+		return sounds.find(sound => sound.id === id)
+	}
+
 	const generatePads = async () => {
 		const pads = []
 		const numberOfPads = sampler.numberOfRows * sampler.numberOfColumns
-
 		for (let i = 0; i < numberOfPads; i++) {
 			pads.push({
 				id: Date.now() + i,
 				size: getPadSize(),
 				index: i,
 				samplerIndex: index,
-				...sampler.pads[i]
+				soundInfos: getSoundById(sampler.pads[i].sound)
 			})
 		}
 

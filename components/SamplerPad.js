@@ -5,21 +5,21 @@ import { Audio } from 'expo-av'
 import { colors } from '../constants/pads';
 
 const padLightImage = require('../assets/img/pad_light.png')
+// const soundFile = require('../assets/sounds/snare-808.wav')
 
-const SamplerPad = ({ size, color, soundInfos, onEdit }) => {
+const SamplerPad = ({ size, color, soundFile, onEdit }) => {
 	const [sound, setSound] = useState(null)
 
 	useEffect(() => {
 		loadSound()
-	}, [soundInfos])
+	}, [soundFile])
 
 	useEffect(() => unloadSound, [sound])
 
 	const loadSound = async () => {
 		unloadSound()
 		try {
-			if (soundInfos) {
-				const soundFile = require('../' + soundInfos.file)
+			if (soundFile) {
 				const { sound } = await Audio.Sound.createAsync(soundFile)
 				setSound(sound)
 			}

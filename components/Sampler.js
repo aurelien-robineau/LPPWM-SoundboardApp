@@ -9,6 +9,7 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	const [visible, setVisible] = useState(show)
 
 	const sounds = useSelector(state => state.library.sounds)
+	const samplers = useSelector(state => state.samplers)
 
 	const screenWidth = useWindowDimensions().width
 
@@ -25,20 +26,22 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	}
 
 	const getSoundById = (id) => {
-		return sounds.find(sound => sound.id === id)
+		return sounds.find(sound => sound.id === id) ?? null
 	}
 
 	const generatePads = async () => {
 		const pads = []
 		const numberOfPads = sampler.numberOfRows * sampler.numberOfColumns
 		for (let i = 0; i < numberOfPads; i++) {
+			const pad = sampler.pads[i]
 			pads.push({
 				id: Date.now() + i,
 				size: getPadSize(),
 				index: i,
 				samplerIndex: index,
-				color: sampler.pads[i].color,
-				soundFile: getSoundById(sampler.pads[i].sound).file
+				color: pad.color,
+				soundFile: getSoundById(pad.sound).file,
+				sound: pad.sound
 			})
 		}
 

@@ -26,7 +26,7 @@ const SamplerScreen = () => {
 		dispatch(samplersActions.updatePad({
 			samplerIndex: pad.samplerIndex,
 			padIndex: pad.index,
-			newPad
+			newValue: newPad
 		}))
 	}
 

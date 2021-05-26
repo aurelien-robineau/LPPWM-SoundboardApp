@@ -46,7 +46,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 					</TouchableOpacity>
 					<Text style={styles.title}>Modifier le pad</Text>
 					<TouchableOpacity onPress={savePad}>
-						<Text>Enregistrer</Text>
+						<Text style={styles.actionButtonText}>Enregistrer</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.body}>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingHorizontal: 10,
-		paddingVertical: 10,
+		paddingVertical: 15,
 		backgroundColor: config.colors.main
 	},
 
@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
 		color: config.colors.text,
 		fontSize: 20,
 		fontWeight: 'bold',
-		marginLeft: 10
+		marginLeft: 10,
+		flex: 1
 	},
 
 	body: {
@@ -94,6 +95,12 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: config.colors.text,
 		marginBottom: 5
+	},
+
+	actionButtonText: {
+		color: '#1ca4ff',
+		fontSize: 18,
+		fontWeight: 'bold'
 	}
 })
 

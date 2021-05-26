@@ -64,7 +64,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 					/>
 
 					<Text style={styles.inputLabel}>Son</Text>
-					<SoundList sounds={sounds} />
+					<SoundList sounds={sounds} selectedItem={pad.sound} onChange={setSound} />
 				</View>
 			</View>
 		</Modal>

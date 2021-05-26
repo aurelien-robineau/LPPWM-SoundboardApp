@@ -1,12 +1,23 @@
-import React from 'react'
-import { SafeAreaView, FlatList, View, Text } from 'react-native'
+import React, { useState } from 'react'
+import { SafeAreaView, FlatList } from 'react-native'
 
 import SoundCard from './SoundCard'
 
-const SoundList = ({ sounds }) => {
+const SoundList = ({ sounds, selectedItem, onChange }) => {
+	const [selectedSound, setSelectedSound] = useState(selectedItem)
+
 	const renderSound = ({ item }) => {
 		return (
-			<SoundCard sound={item} />
+			<SoundCard
+				sound={item}
+				selected={item.id === selectedSound}
+				onChange={checked => {
+					if (checked) {
+						setSelectedSound(item.id)
+						if (onChange) onChange(item.id)
+					}
+				}}
+			/>
 		)
 	}
 

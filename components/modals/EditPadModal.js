@@ -64,7 +64,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 					/>
 
 					<Text style={styles.inputLabel}>Son</Text>
-					<SoundList sounds={sounds} selectedItem={pad.sound} onChange={setSound} />
+					<SoundList sounds={sounds} selectedItem={pad ? pad.sound : null} onChange={setSound} />
 				</View>
 			</View>
 		</Modal>
@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
 	actionButtonText: {
 		color: '#1ca4ff',
 		fontSize: 18,
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		marginRight: 10
 	}
 })
 

@@ -22,7 +22,7 @@ const SoundList = ({ sounds, selectedItem, onChange }) => {
 	}
 
 	return (
-		<SafeAreaView>
+		<SafeAreaView style={{ height: 500 }}>
 			<FlatList
 				data={sounds}
 				renderItem={renderSound}

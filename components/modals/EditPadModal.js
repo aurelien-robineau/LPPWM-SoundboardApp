@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native'
+import { useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements'
 
 import ColorInput from '../inputs/ColorInput'
+import SoundList from '../library/SoundList'
 
 import config from '../../config'
 import { colors } from '../../constants/pads'
@@ -15,6 +17,8 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 
 	const [color, setColor] = useState(pad?.color)
 	const [sound, setSound] = useState(pad?.sound)
+
+	const sounds = useSelector(state => state.library.sounds)
 
 	useEffect(() => {
 		setIsVisible(visible)
@@ -58,6 +62,9 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 						value={color}
 						onChange={setColor}
 					/>
+
+					<Text style={styles.inputLabel}>Son</Text>
+					<SoundList sounds={sounds} />
 				</View>
 			</View>
 		</Modal>

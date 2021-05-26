@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-import config from '../config'
+import config from '../../config'
 
 const SamplerCard = ({ name, selected, onPress }) => {
 	return (

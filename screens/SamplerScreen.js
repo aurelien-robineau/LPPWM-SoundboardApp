@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
-import Sampler from '../components/Sampler'
-import SamplerCard from '../components/SamplerCard'
+import Sampler from '../components/sampler/Sampler'
+import SamplerCard from '../components/sampler/SamplerCard'
 import EditPadModal from '../components/modals/EditPadModal'
 
 import config from '../config'

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { Audio } from 'expo-av'
 
-import { colors } from '../constants/pads';
+import { colors } from '../../constants/pads'
 
-const padLightImage = require('../assets/img/pad_light.png')
-// const soundFile = require('../assets/sounds/snare-808.wav')
+const padLightImage = require('../../assets/img/pad_light.png')
 
 const SamplerPad = ({ size, color, soundFile, onEdit }) => {
 	const [sound, setSound] = useState(null)

@@ -18,6 +18,8 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 
 	useEffect(() => {
 		setIsVisible(visible)
+		setColor(pad?.color)
+		setSound(pad?.sound)
 	}, [visible])
 
 	useEffect(() => {

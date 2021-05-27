@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { SafeAreaView, FlatList } from 'react-native'
+import { View, FlatList } from 'react-native'
 
 import SoundCard from './SoundCard'
 
-const SoundList = ({ sounds, selectedItem, onChange }) => {
+const SoundList = ({ sounds, selectedItem, onChange, style }) => {
 	const [selectedSound, setSelectedSound] = useState(selectedItem)
 
 	const renderSound = ({ item }) => {
@@ -22,13 +22,13 @@ const SoundList = ({ sounds, selectedItem, onChange }) => {
 	}
 
 	return (
-		<SafeAreaView style={{ height: 500 }}>
+		<View style={style}>
 			<FlatList
 				data={sounds}
 				renderItem={renderSound}
 				keyExtractor={item => item.id}
 			/>
-		</SafeAreaView>
+		</View>
 	)
 }
 

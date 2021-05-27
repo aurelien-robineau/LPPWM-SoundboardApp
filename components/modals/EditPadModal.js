@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, StyleSheet, Dimensions, StatusBar } from 'react-native'
 import { useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements'
 
@@ -19,6 +19,12 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	const [sound, setSound] = useState(pad?.sound)
 
 	const sounds = useSelector(state => state.library.sounds)
+
+	const soundListHeight =
+		Dimensions.get('window').height
+		- (StatusBar.currentHeight)
+		- 295
+		
 
 	useEffect(() => {
 		setIsVisible(visible)
@@ -64,7 +70,12 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 					/>
 
 					<Text style={styles.inputLabel}>Son</Text>
-					<SoundList sounds={sounds} selectedItem={pad ? pad.sound : null} onChange={setSound} />
+					<SoundList
+						sounds={sounds}
+						selectedItem={pad ? pad.sound : null}
+						onChange={setSound}
+						style={{ height: soundListHeight }}
+					/>
 				</View>
 			</View>
 		</Modal>

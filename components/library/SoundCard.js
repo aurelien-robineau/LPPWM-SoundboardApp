@@ -6,10 +6,28 @@ import { Audio } from 'expo-av'
 const SoundCard = ({ sound, selected, onChange }) => {
 	const [playback, setPlayback] = useState(null)
 	const [playbackStatus, setPlaybackStatus] = useState(null)
+	const [playing, setPlaying] = useState(false)
 	
 	useEffect(() => {
 		loadSound()
 	}, [])
+
+	useEffect(() => {
+		if (playback) {
+			playback.unloadAsync()
+		}
+	})
+
+	const toggleSound = () => {
+		if (playback) {
+			if (playing)
+				playback.replayAsync()
+			else
+				playback.pauseAsync()
+
+			setPlaying(!playing)
+		}
+	}
 
 	const loadSound = async () => {
 		const playback = new Audio.Sound()
@@ -53,6 +71,13 @@ const SoundCard = ({ sound, selected, onChange }) => {
 					<Text style={styles.name}>{ sound.name }</Text>
 					<Text style={styles.duration}>{ formatDuration(playbackStatus.durationMillis) }</Text>
 				</View>
+				<Pressable onPress={toggleSound}>
+					<Icon
+						name={playing ? 'pause' : 'play-arrow'}
+						size={34}
+						color="white"
+					/>
+				</Pressable>
 			</View>
       </Pressable>
 	)
@@ -89,7 +114,8 @@ const styles = StyleSheet.create({
 	},
 
 	infosContainer: {
-		marginLeft: 20
+		marginLeft: 20,
+		flex: 1
 	},
 
 	name: {

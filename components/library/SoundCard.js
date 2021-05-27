@@ -1,9 +1,40 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, Pressable } from 'react-native'
 import { Icon } from 'react-native-elements'
+import { Audio } from 'expo-av'
 
 const SoundCard = ({ sound, selected, onChange }) => {
-	return (
+	const [playback, setPlayback] = useState(null)
+	const [playbackStatus, setPlaybackStatus] = useState(null)
+	
+	useEffect(() => {
+		loadSound()
+	}, [])
+
+	const loadSound = async () => {
+		const playback = new Audio.Sound()
+		const playbackStatus = await playback.loadAsync(sound.file)
+		
+		setPlayback(playback)
+		setPlaybackStatus(playbackStatus)
+	}
+
+	const formatDuration = (durationInMillis) => {
+		let durationInSeconds = durationInMillis / 1000
+		let seconds = Math.floor(durationInSeconds)
+		let millis = (durationInSeconds - seconds) * 1000
+
+		if (seconds < 60)
+			return `${seconds}sec ${millis.toFixed(0)}ms`
+		
+		let minutes = Math.floor(seconds / 60)
+		seconds = seconds - minutes * 60
+
+		return `${minutes}min ${seconds}sec ${millis.toFixed(0)}ms` 
+
+	}
+
+	return playback && playbackStatus && (
 		<Pressable onPress={() => onChange(!selected)}>
 			<View style={styles.card}>
 				<View style={[
@@ -18,7 +49,10 @@ const SoundCard = ({ sound, selected, onChange }) => {
 						/>
 					}
 				</View>
-				<Text style={styles.name}>{ sound.name }</Text>
+				<View style={styles.infosContainer}>
+					<Text style={styles.name}>{ sound.name }</Text>
+					<Text style={styles.duration}>{ formatDuration(playbackStatus.durationMillis) }</Text>
+				</View>
 			</View>
       </Pressable>
 	)
@@ -54,10 +88,18 @@ const styles = StyleSheet.create({
 		backgroundColor: '#1ca4ff'
 	},
 
+	infosContainer: {
+		marginLeft: 20
+	},
+
 	name: {
 		color: 'white',
 		fontSize: 16,
-		marginLeft: 20
+	},
+
+	duration: {
+		color: '#dddddd',
+		fontSize: 14,
 	}
 })
 

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { defaultConfig as defaultPad } from '../constants/pads'
 
 const initialState = {
 	samplers: [
@@ -176,6 +177,20 @@ const samplersSlice = createSlice({
 		updatePad(state, action) {
 			const { samplerIndex, padIndex, newValue } = action.payload
 			state.samplers[samplerIndex].pads[padIndex] = newValue
+		},
+
+		updateSamplerSize(state, action) {
+			const { samplerIndex, numberOfRows, numberOfColumns } = action.payload
+			const sampler = state.samplers[samplerIndex]
+			sampler.numberOfRows = numberOfRows
+			sampler.numberOfColumns = numberOfColumns
+			
+			for (let i = 0; i < numberOfRows * numberOfColumns; i++) {
+				const pad = sampler.pads[i] ?? defaultPad
+				sampler.pads[i] = pad
+			}
+
+			sampler.pads.splice(numberOfRows * numberOfColumns)
 		}
 	}
 })

@@ -11,6 +11,6 @@ export const colors = {
 }
 
 export const defaultConfig = {
-	color: colors.orange,
+	color: 'orange',
 	sound: 'default-clap-808'
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Modal, TouchableOpacity, StyleSheet, Dimensions, StatusBar } from 'react-native'
+import { Text, StyleSheet, Dimensions, StatusBar } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Icon } from 'react-native-elements'
 
 import ColorInput from '../inputs/ColorInput'
 import SoundList from '../library/SoundList'
@@ -63,45 +62,10 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 }
 
 const styles = StyleSheet.create({
-	content: {
-		backgroundColor: config.colors.background,
-		width: '100%',
-		height: '100%'
-	},
-
-	header: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		paddingHorizontal: 10,
-		paddingVertical: 15,
-		backgroundColor: config.colors.main
-	},
-
-	title: {
-		color: config.colors.text,
-		fontSize: 20,
-		fontWeight: 'bold',
-		marginLeft: 10,
-		flex: 1
-	},
-
-	body: {
-		paddingHorizontal: 20,
-		paddingVertical: 20
-	},
-
 	inputLabel: {
 		fontSize: 20,
 		color: config.colors.text,
 		marginBottom: 5
-	},
-
-	actionButtonText: {
-		color: '#1ca4ff',
-		fontSize: 18,
-		fontWeight: 'bold',
-		marginRight: 10
 	}
 })
 

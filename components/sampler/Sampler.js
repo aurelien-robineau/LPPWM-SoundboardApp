@@ -9,7 +9,6 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	const [visible, setVisible] = useState(show)
 
 	const sounds = useSelector(state => state.library.sounds)
-	const samplers = useSelector(state => state.samplers)
 
 	const screenWidth = useWindowDimensions().width
 

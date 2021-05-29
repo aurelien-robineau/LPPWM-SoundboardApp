@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 import config from '../../config'
 
-const SamplerCard = ({ name, selected, onPress }) => {
+const SamplerCard = ({ name, selected, onPress, onLongPress }) => {
 	return (
-		<TouchableOpacity onPress={onPress}>
+		<TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
 			<View style={[styles.card, selected ? styles.selected : null]}>
 				<Text style={styles.name}>{ name }</Text>
 			</View>

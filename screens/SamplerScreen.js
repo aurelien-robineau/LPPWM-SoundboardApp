@@ -8,18 +8,25 @@ import EditPadModal from '../components/modals/EditPadModal'
 
 import config from '../config'
 import { samplersActions } from '../store/samplersSlice'
+import EditSamplerModal from '../components/modals/EditSamplerModal'
 
 const SamplerScreen = () => {
 	const [selectedSamplerIndex, setSelectedSamplerIndex] = useState(0)
-	const [modalVisible, setModalVisible] = useState(false)
 	const [selectedPad, setSelectedPad] = useState(null)
+	const [padModalVisible, setPadModalVisible] = useState(false)
+	const [samplerModalVisible, setSamplerModalVisible] = useState(false)
 
 	const dispatch = useDispatch()
 	const samplers = useSelector(state => state.samplers.samplers)
 
 	const openEditPadModal = (pad) => {
 		setSelectedPad(pad)
-		setModalVisible(true)
+		setPadModalVisible(true)
+	}
+
+	const openEditSamplerModal = (samplerIndex) => {
+		setSelectedSamplerIndex(samplerIndex)
+		setSamplerModalVisible(true)
 	}
 
 	const updatePad = (pad, newPad) => {
@@ -30,14 +37,26 @@ const SamplerScreen = () => {
 		}))
 	}
 
+	const updateSampler = (samplerIndex, newSampler) => {
+		dispatch(samplersActions.updateSamplerSize({
+			samplerIndex: samplerIndex,
+			numberOfRows: newSampler.numberOfRows,
+			numberOfColumns: newSampler.numberOfColumns
+		}))
+	}
+
 	return (
 		<>
 			<View style={styles.container}>
 				<View style={styles.samplerSelectorContainer}>
 					{ samplers.map((sampler, index) => (
-						<SamplerCard key={index} name={sampler.name} selected={selectedSamplerIndex === index} onPress={() => {
-							setSelectedSamplerIndex(index)
-						}}/>
+						<SamplerCard
+							key={index}
+							name={sampler.name}
+							selected={selectedSamplerIndex === index}
+							onPress={() => setSelectedSamplerIndex(index)}
+							onLongPress={() => openEditSamplerModal(index)}
+						/>
 					))}
 				</View>
 				<View style={styles.samplerContainer}>
@@ -55,9 +74,16 @@ const SamplerScreen = () => {
 			
 			<EditPadModal
 				pad={selectedPad}
-				visible={modalVisible}
-				onClose={() => setModalVisible(false)}
+				visible={padModalVisible}
+				onClose={() => setPadModalVisible(false)}
 				onSave={newPad => updatePad(selectedPad, newPad)}
+			/>
+
+			<EditSamplerModal
+				sampler={samplers[selectedSamplerIndex]}
+				visible={samplerModalVisible}
+				onClose={() => setSamplerModalVisible(false)}
+				onSave={newSampler => updateSampler(selectedSamplerIndex, newSampler)}
 			/>
 		</>
 	)

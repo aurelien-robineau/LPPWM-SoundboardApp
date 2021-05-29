@@ -8,12 +8,11 @@ import SoundList from '../library/SoundList'
 
 import config from '../../config'
 import { colors } from '../../constants/pads'
+import ModalTemplate from './ModalTemplate'
 
 const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	const availableColors = {...colors}
 	delete availableColors.off
-
-	const [isVisible, setIsVisible] = useState(false)
 
 	const [color, setColor] = useState(pad?.color)
 	const [sound, setSound] = useState(pad?.sound)
@@ -24,13 +23,6 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 		Dimensions.get('window').height
 		- (StatusBar.currentHeight)
 		- 295
-		
-
-	useEffect(() => {
-		setIsVisible(visible)
-		setColor(pad?.color)
-		setSound(pad?.sound)
-	}, [visible])
 
 	useEffect(() => {
 		setColor(pad?.color)
@@ -46,39 +38,27 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	}
 
     return (
-		<Modal
-			animationType="slide"
-			visible={isVisible}
-			onRequestClose={onClose ? onClose : null}
+		<ModalTemplate
+			title="Modifier le pad"
+			visible={visible}
+			onClose={onClose}
+			onSave={savePad}
 		>
-			<View style={styles.content}>
-				<View style={styles.header}>
-					<TouchableOpacity onPress={onClose}>
-						<Icon name="arrow-back" size={30} color={config.colors.text}/>
-					</TouchableOpacity>
-					<Text style={styles.title}>Modifier le pad</Text>
-					<TouchableOpacity onPress={savePad}>
-						<Text style={styles.actionButtonText}>Enregistrer</Text>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.body}>
-					<Text style={styles.inputLabel}>Couleur</Text>
-					<ColorInput
-						items={availableColors}
-						value={color}
-						onChange={setColor}
-					/>
+			<Text style={styles.inputLabel}>Couleur</Text>
+			<ColorInput
+				items={availableColors}
+				value={color}
+				onChange={setColor}
+			/>
 
-					<Text style={styles.inputLabel}>Son</Text>
-					<SoundList
-						sounds={sounds}
-						selectedItem={pad ? pad.sound : null}
-						onChange={setSound}
-						style={{ height: soundListHeight }}
-					/>
-				</View>
-			</View>
-		</Modal>
+			<Text style={styles.inputLabel}>Son</Text>
+			<SoundList
+				sounds={sounds}
+				selectedItem={pad ? pad.sound : null}
+				onChange={setSound}
+				style={{ height: soundListHeight }}
+			/>
+		</ModalTemplate>
     )
 }
 

@@ -32,7 +32,7 @@ const EditSamplerModal = ({ visible, sampler, onClose, onSave }) => {
 
     return (
 		<ModalTemplate
-			title="Modifier le pad"
+			title="Modifier le sampler"
 			visible={visible}
 			onClose={onClose}
 			onSave={saveSampler}

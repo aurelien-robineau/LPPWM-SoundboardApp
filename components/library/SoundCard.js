@@ -9,36 +9,33 @@ import { formatAudioDuration } from '../../utils'
 const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 	const [playback, setPlayback] = useState(null)
 	const [playbackStatus, setPlaybackStatus] = useState(null)
-	const [playing, setPlaying] = useState(false)
-	const [loadingStatus, setLoadingStatus] = useState('loading')
 	
 	useEffect(() => {
 		loadSound()
 	}, [])
 
 	useEffect(() => {
-		if (playback) {
-			playback.unloadAsync()
-		}
+		unloadSound()
 	})
 
 	const toggleSound = () => {
 		if (playback) {
-			if (playing)
+			if (playbackStatus.isPlaying)
 				playback.replayAsync()
 			else
 				playback.pauseAsync()
-
-			setPlaying(!playing)
 		}
 	}
 
 	const loadSound = async () => {
-		console.log('load sound ' + sound.id)
+		
 		try {
+			await unloadSound()
+
 			const { sound: playback, status: playbackStatus} = await Audio.Sound.createAsync(sound.file, {
 				isLooping: false
 			}, onPlaybackStatusUpdate)
+
 			setPlayback(playback)
 			setPlaybackStatus(playbackStatus)
 		} catch(e) {
@@ -46,13 +43,13 @@ const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 		}
 	}
 
+	const unloadSound = async () => {
+		if (playback)
+			await playback.unloadAsync()
+	}
+
 	const onPlaybackStatusUpdate = (status) => {
-		// console.log(sound.id, status)
-		console.log(sound.id + " status updated, " + (status.isLoaded ? "loaded" : 'not loaded'))
-		if (status.isLoaded)
-			setLoadingStatus('loaded')
-		else
-			setLoadingStatus('error')
+		setPlaybackStatus(status)
 	}
 
 	return playback && playbackStatus && (
@@ -74,23 +71,25 @@ const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 				}
 				<View style={[styles.infosContainer, { marginLeft: isSelectable ? 20 : 0 }]}>
 					<Text style={styles.name}>{ sound.name }</Text>
-					<Text style={styles.duration}>{ formatAudioDuration(playbackStatus.durationMillis) }</Text>
+					{ playbackStatus.isLoaded &&
+						<Text style={styles.duration}>{ formatAudioDuration(playbackStatus.durationMillis) }</Text>
+					}
 				</View>
-				{ loadingStatus === 'loading' &&
+				{ playbackStatus === null &&
 					<ActivityIndicator size="small" color="#ffffff" />
 				}
 
-				{ loadingStatus === 'loaded' &&
+				{ playbackStatus && playbackStatus.isLoaded &&
 					<Pressable onPress={toggleSound}>
 						<Icon
-							name={playing ? 'pause' : 'play-arrow'}
+							name={playbackStatus.isPlaying ? 'pause' : 'play-arrow'}
 							size={34}
 							color="white"
 						/>
 					</Pressable>
 				}
 
-				{ loadingStatus === 'error' &&
+				{ playbackStatus && !playbackStatus.isLoaded &&
 					<Icon
 						name="error"
 						size={34}

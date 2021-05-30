@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Text, StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 import config from '../../config'
+import SamplerSizeInput from '../inputs/SamplerSizeInput'
 import ModalTemplate from './ModalTemplate'
 
 const EditSamplerModal = ({ visible, sampler, onClose, onSave }) => {
@@ -12,6 +13,11 @@ const EditSamplerModal = ({ visible, sampler, onClose, onSave }) => {
 		setNumberOfRows(sampler?.numberOfRows)
 		setNumberOfColumns(sampler?.numberOfColumns)
 	}, [sampler])
+
+	const updateValues = (dimensions) => {
+		setNumberOfRows(dimensions.numberOfRows)
+		setNumberOfColumns(dimensions.numberOfColumns)
+	}
 
 	const saveSampler = () => {
 		if (typeof onSave === 'function')
@@ -31,20 +37,13 @@ const EditSamplerModal = ({ visible, sampler, onClose, onSave }) => {
 			onClose={onClose}
 			onSave={saveSampler}
 		>
-			<Text style={styles.inputLabel}>Nombre de lignes</Text>
-			<TextInput
-				style={styles.numberInput}
-				value={numberOfRows.toString()}
-				onChangeText={setNumberOfRows}
-				keyboardType="number-pad"
-			/>
-
-			<Text style={styles.inputLabel}>Nombre de colonnes</Text>
-			<TextInput
-				style={styles.numberInput}
-				value={numberOfColumns.toString()}
-				onChangeText={setNumberOfColumns}
-				keyboardType="number-pad"
+			<Text style={styles.inputLabel}>Format</Text>
+			<SamplerSizeInput
+				dimensions={{
+					numberOfRows: sampler.numberOfRows,
+					numberOfColumns: sampler.numberOfColumns
+				}}
+				onChange={dimensions => updateValues(dimensions)}
 			/>
 		</ModalTemplate>
     )

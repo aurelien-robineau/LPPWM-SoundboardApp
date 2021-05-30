@@ -5,7 +5,7 @@ const initialState = {
 	samplers: [
 		{
 			name: 'A',
-			numberOfRows: 4,
+			numberOfRows: 3,
 			numberOfColumns: 3,
 			pads: [
 				{
@@ -43,24 +43,13 @@ const initialState = {
 				{
 					color: 'red',
 					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
 				}
 			]
 		},
 		{
-			name: 'B', numberOfRows: 2,
-			numberOfColumns: 2,
+			name: 'B',
+			numberOfRows: 3,
+			numberOfColumns: 3,
 			pads: [
 				{
 					color: 'cyan',
@@ -77,13 +66,33 @@ const initialState = {
 				{
 					color: 'purple',
 					sound: 'default-clap-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
+				},
+				{
+					color: 'red',
+					sound: 'default-kick-808'
 				}
 			]
 		},
 		{
 			name: 'C',
-			numberOfRows: 5,
-			numberOfColumns: 4,
+			numberOfRows: 3,
+			numberOfColumns: 3,
 			pads: [
 				{
 					color: 'cyan',
@@ -104,50 +113,6 @@ const initialState = {
 				{
 					color: 'orange',
 					sound: 'default-tom-rototom-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-								{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808'
 				},
 				{
 					color: 'red',

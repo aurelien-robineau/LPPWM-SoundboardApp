@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
 
 import config from '../../config'
+import { formatAudioDuration } from '../../utils'
 
 const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 	const [playback, setPlayback] = useState(null)
@@ -54,21 +55,6 @@ const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 			setLoadingStatus('error')
 	}
 
-	const formatDuration = (durationInMillis) => {
-		let durationInSeconds = durationInMillis / 1000
-		let seconds = Math.floor(durationInSeconds)
-		let millis = (durationInSeconds - seconds) * 1000
-
-		if (seconds < 60)
-			return `${seconds}sec ${millis.toFixed(0)}ms`
-		
-		let minutes = Math.floor(seconds / 60)
-		seconds = seconds - minutes * 60
-
-		return `${minutes}min ${seconds}sec ${millis.toFixed(0)}ms` 
-
-	}
-
 	return playback && playbackStatus && (
 		<Pressable onPress={() => onChange(!selected)}>
 			<View style={styles.card}>
@@ -88,7 +74,7 @@ const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 				}
 				<View style={[styles.infosContainer, { marginLeft: isSelectable ? 20 : 0 }]}>
 					<Text style={styles.name}>{ sound.name }</Text>
-					<Text style={styles.duration}>{ formatDuration(playbackStatus.durationMillis) }</Text>
+					<Text style={styles.duration}>{ formatAudioDuration(playbackStatus.durationMillis) }</Text>
 				</View>
 				{ loadingStatus === 'loading' &&
 					<ActivityIndicator size="small" color="#ffffff" />

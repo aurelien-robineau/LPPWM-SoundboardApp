@@ -1,41 +1,73 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, Dimensions, StatusBar } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements'
+import { Audio } from 'expo-av'
 
 import SoundList from '../components/library/SoundList'
+import RecorderBottomSheet from '../components/modals/RecorderBottomSheet'
 
 import config from '../config'
+
+const soundListHeight =
+	Dimensions.get('window').height
+	- (StatusBar.currentHeight)
+	- 290
 
 const LibraryScreen = () => {
 	const sounds = useSelector(state => state.library.sounds)
 
-	const soundListHeight =
-		Dimensions.get('window').height
-		- (StatusBar.currentHeight)
-		- 290
+	const refRBSheetRecord = useRef()
+
+	let recordPermissionsGranted = false
+
+	useEffect(() => {
+		initPermissions()
+	}, [])
+
+	const initPermissions = async () => {
+		const permissions = await Audio.getPermissionsAsync()
+		recordPermissionsGranted = permissions.granted
+	}
+
+	const openRecordBottomSheet = async () => {
+		if (!recordPermissionsGranted) {
+			const permissions = await Audio.requestPermissionsAsync()
+			recordPermissionsGranted = permissions.granted
+
+			if (!permissions.granted) return
+		}
+
+		refRBSheetRecord.current.open()
+	}
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.header}>
-				<TouchableOpacity style={styles.button}>
-					<Icon name="search" size={26} color="white" />
-					<Text style={styles.buttonText}>Rechercher en ligne</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.button}>
-					<Icon name="mic" size={26} color="white" />
-					<Text style={styles.buttonText}>Enregistrer un son</Text>
-				</TouchableOpacity>
+		<>
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<TouchableOpacity style={styles.button}>
+						<Icon name="search" size={26} color="white" />
+						<Text style={styles.buttonText}>Rechercher en ligne</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={styles.button} onPress={openRecordBottomSheet}>
+						<Icon name="mic" size={26} color="white" />
+						<Text style={styles.buttonText}>Enregistrer un son</Text>
+					</TouchableOpacity>
+				</View>
+
+				<Text style={styles.categoryLabel}>Mes sons</Text>
+				<SoundList
+					sounds={sounds}
+					selectedItem={null}
+					// onChange={setSound}
+					style={{ height: soundListHeight }}
+				/>
 			</View>
 
-			<Text style={styles.categoryLabel}>Mes sons</Text>
-			<SoundList
-				sounds={sounds}
-				selectedItem={null}
-				// onChange={setSound}
-				style={{ height: soundListHeight }}
+			<RecorderBottomSheet
+				ref={refRBSheetRecord}
 			/>
-		</View>
+		</>
 	)
 }
 

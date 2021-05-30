@@ -56,6 +56,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 				selectedItem={pad ? pad.sound : null}
 				onChange={setSound}
 				style={{ height: soundListHeight }}
+				isInput
 			/>
 		</ModalTemplate>
     )

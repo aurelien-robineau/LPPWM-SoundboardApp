@@ -3,13 +3,14 @@ import { View, FlatList } from 'react-native'
 
 import SoundCard from './SoundCard'
 
-const SoundList = ({ sounds, selectedItem, onChange, style }) => {
+const SoundList = ({ sounds, isInput, selectedItem, onChange, style }) => {
 	const [selectedSound, setSelectedSound] = useState(selectedItem)
 
 	const renderSound = ({ item }) => {
 		return (
 			<SoundCard
 				sound={item}
+				isSelectable={isInput}
 				selected={item.id === selectedSound}
 				onChange={checked => {
 					if (checked) {

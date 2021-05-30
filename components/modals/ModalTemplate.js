@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 	},
 
 	actionButtonText: {
-		color: '#1ca4ff',
+		color: config.colors.primary,
 		fontSize: 18,
 		fontWeight: 'bold',
 		marginRight: 10

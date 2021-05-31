@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions, TextInput } from 'react-native'
 import { Icon } from 'react-native-elements'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import { Audio } from 'expo-av'
@@ -13,6 +13,7 @@ const component = forwardRef((props, ref) => {
 	const [record, setRecord] = useState(null)
 	const [sound, setSound] = useState(null)
 	const [isPlaying, setIsPlaying] = useState(false)
+	const [recordName, setRecordName] = useState('Titre')
 
 	useEffect(() => unloadSound, [sound])
 
@@ -51,6 +52,14 @@ const component = forwardRef((props, ref) => {
 		setIsPlaying(status.isPlaying)
 	}
 
+	const resetModal = async () => {
+		setRecord(null)
+		setSound(null)
+		setIsPlaying(false)
+		setRecordName('Titre')
+		await unloadSound()
+	}
+
 	return (
 		<RBSheet
 			ref={ref}
@@ -66,12 +75,29 @@ const component = forwardRef((props, ref) => {
 		>
 			<View style={styles.bottomSheetContainer}>
 				{ record ?
-					<View style={styles.recordPlayer}>
-						<TouchableOpacity onPress={toggleSound}>
-							<Icon name={isPlaying ? 'stop' : 'play-arrow'} size={42} color="white" />
-						</TouchableOpacity>
-						<Text style={styles.recordPlayerText}>{ formatAudioDuration(record.durationMillis) }</Text>
-					</View>
+					<>
+						<TextInput
+							value={recordName}
+							onTextInput={setRecordName}
+							style={styles.recordNameInput}
+						/>
+						<View style={styles.recordPlayer}>
+							<TouchableOpacity onPress={toggleSound}>
+								<Icon name={isPlaying ? 'stop' : 'play-arrow'} size={42} color="white" />
+							</TouchableOpacity>
+							<Text style={styles.recordPlayerText}>{ formatAudioDuration(record.durationMillis) }</Text>
+						</View>
+						<View style={styles.actionsContainer}>
+							<TouchableOpacity style={styles.actionButton} onPress={resetModal}>
+								<Icon name="delete" size={26} color="white" />
+								<Text style={styles.actionButtonText}>Supprimer</Text>
+							</TouchableOpacity>
+							<TouchableOpacity style={styles.actionButton}>
+								<Icon name="save" size={26} color="white" />
+								<Text style={styles.actionButtonText}>Enregistrer</Text>
+							</TouchableOpacity>
+						</View>
+					</>
 				:
 					<Recorder onRecordEnd={loadRecord} />
 				}
@@ -94,13 +120,47 @@ const styles = StyleSheet.create({
 	recordPlayer: {
 		display: 'flex',
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginLeft: -15
 	},
 
 	recordPlayerText: {
 		fontSize: 18,
 		color: "white",
 		marginLeft: 10
+	},
+
+	recordNameInput: {
+		color: 'white',
+		fontSize: 26,
+		textAlign: 'center',
+		borderBottomColor: 'white',
+		borderBottomWidth: 2,
+		marginBottom: 10
+	},
+
+	actionsContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginTop: 5
+	},
+
+	actionButton: {
+		backgroundColor: config.colors.primary,
+		borderRadius: 50,
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginHorizontal: 5
+	},
+
+	actionButtonText: {
+		color: 'white',
+		fontSize: 16,
+		marginLeft: 5
 	}
 })
 

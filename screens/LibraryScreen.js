@@ -3,10 +3,13 @@ import { View, StyleSheet, TouchableOpacity, Text, Dimensions, StatusBar } from 
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
+import * as FileSystem from 'expo-file-system'
+import uuid from 'react-native-uuid'
 
 import SoundList from '../components/library/SoundList'
 import RecorderBottomSheet from '../components/modals/RecorderBottomSheet'
 
+import { libraryActions } from '../store/librarySlice'
 import config from '../config'
 
 const soundListHeight =
@@ -18,6 +21,8 @@ const LibraryScreen = () => {
 	const [isRecorderOpen, setIsRecorderOpen] = useState(false)
 
 	const sounds = useSelector(state => state.library.sounds)
+
+	const dispatch = useDispatch()
 
 	let recordPermissionsGranted = false
 
@@ -43,7 +48,26 @@ const LibraryScreen = () => {
 
 	const onRecordSave = (uri, name) => {
 		setIsRecorderOpen(false)
-		console.log(uri, name)
+
+		const soundId = uuid.v4()
+		const soundUri = `${FileSystem.documentDirectory}${soundId}.${getFileExtension(uri)}`
+
+		FileSystem.copyAsync({
+			from: uri,
+			to: soundUri
+		})
+
+		dispatch(libraryActions.addSound({
+			id: soundId,
+			name: name,
+			type: 'record',
+			uri: soundUri
+		}))
+	}
+
+	const getFileExtension = (uri) => {
+		const splittedUri = uri.split('.')
+		return splittedUri[splittedUri.length - 1]
 	}
 
 	return (

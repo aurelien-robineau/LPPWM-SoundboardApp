@@ -6,20 +6,20 @@ import { colors } from '../../constants/pads'
 
 const padLightImage = require('../../assets/img/pad_light.png')
 
-const SamplerPad = ({ size, color, soundFile, onEdit }) => {
+const SamplerPad = ({ size, color, soundUri, onEdit }) => {
 	const [sound, setSound] = useState(null)
 
 	useEffect(() => {
 		loadSound()
-	}, [soundFile])
+	}, [soundUri])
 
 	useEffect(() => unloadSound, [sound])
 
 	const loadSound = async () => {
 		unloadSound()
 		try {
-			if (soundFile) {
-				const { sound } = await Audio.Sound.createAsync(soundFile)
+			if (soundUri) {
+				const { sound } = await Audio.Sound.createAsync({ uri: soundUri })
 				setSound(sound)
 			}
 		} catch (e) {

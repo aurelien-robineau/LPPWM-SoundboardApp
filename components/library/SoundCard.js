@@ -32,9 +32,11 @@ const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 		try {
 			await unloadSound()
 
-			const { sound: playback, status: playbackStatus} = await Audio.Sound.createAsync(sound.file, {
-				isLooping: false
-			}, onPlaybackStatusUpdate)
+			const { sound: playback, status: playbackStatus} = await Audio.Sound.createAsync(
+				{ uri: sound.uri },
+				{ isLooping: false },
+				onPlaybackStatusUpdate
+			)
 
 			setPlayback(playback)
 			setPlaybackStatus(playbackStatus)

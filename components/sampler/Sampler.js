@@ -39,7 +39,7 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 				index: i,
 				samplerIndex: index,
 				color: pad.color,
-				soundFile: getSoundById(pad.sound).file,
+				soundUri: getSoundById(pad.sound).uri,
 				sound: pad.sound
 			})
 		}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, Dimensions, TextInput } from 'react-native'
 import { Icon } from 'react-native-elements'
 import RBSheet from 'react-native-raw-bottom-sheet'
@@ -9,13 +9,23 @@ import Recorder from '../../components/library/Recorder'
 import config from '../../config'
 import { formatAudioDuration } from '../../utils'
 
-const component = forwardRef((props, ref) => {
+const component = ({ isOpen, onSave }) => {
 	const [record, setRecord] = useState(null)
 	const [sound, setSound] = useState(null)
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [recordName, setRecordName] = useState('Titre')
 
+	const refRBSheet = useRef()
+
 	useEffect(() => unloadSound, [sound])
+
+	useEffect(() => {
+		if (isOpen) {
+			refRBSheet.current.open()
+		} else {
+			refRBSheet.current.close()
+		}
+	}, [isOpen])
 
 	const loadRecord = async (record) => {
 		setRecord(record)
@@ -60,9 +70,16 @@ const component = forwardRef((props, ref) => {
 		await unloadSound()
 	}
 
+	const onSavePressed = () => {
+		if (onSave)
+			onSave(record.uri, recordName)
+
+		resetModal()
+	}
+
 	return (
 		<RBSheet
-			ref={ref}
+			ref={refRBSheet}
 			height={Dimensions.get('window').height * 0.3}
 			closeOnDragDown={true}
 			closeOnPressMask={true}
@@ -78,7 +95,7 @@ const component = forwardRef((props, ref) => {
 					<>
 						<TextInput
 							value={recordName}
-							onTextInput={setRecordName}
+							onChangeText={setRecordName}
 							style={styles.recordNameInput}
 						/>
 						<View style={styles.recordPlayer}>
@@ -92,7 +109,7 @@ const component = forwardRef((props, ref) => {
 								<Icon name="delete" size={26} color="white" />
 								<Text style={styles.actionButtonText}>Supprimer</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={styles.actionButton}>
+							<TouchableOpacity style={styles.actionButton} onPress={onSavePressed}>
 								<Icon name="save" size={26} color="white" />
 								<Text style={styles.actionButtonText}>Enregistrer</Text>
 							</TouchableOpacity>
@@ -104,7 +121,7 @@ const component = forwardRef((props, ref) => {
 			</View>
 		</RBSheet>
 	)
-})
+}
 
 const styles = StyleSheet.create({
 	bottomSheetContainer: {

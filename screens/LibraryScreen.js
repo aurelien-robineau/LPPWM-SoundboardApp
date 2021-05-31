@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, Dimensions, StatusBar } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements'
@@ -15,9 +15,9 @@ const soundListHeight =
 	- 290
 
 const LibraryScreen = () => {
-	const sounds = useSelector(state => state.library.sounds)
+	const [isRecorderOpen, setIsRecorderOpen] = useState(false)
 
-	const refRBSheetRecord = useRef()
+	const sounds = useSelector(state => state.library.sounds)
 
 	let recordPermissionsGranted = false
 
@@ -38,7 +38,12 @@ const LibraryScreen = () => {
 			if (!permissions.granted) return
 		}
 
-		refRBSheetRecord.current.open()
+		setIsRecorderOpen(true)
+	}
+
+	const onRecordSave = (uri, name) => {
+		setIsRecorderOpen(false)
+		console.log(uri, name)
 	}
 
 	return (
@@ -65,7 +70,8 @@ const LibraryScreen = () => {
 			</View>
 
 			<RecorderBottomSheet
-				ref={refRBSheetRecord}
+				isOpen={isRecorderOpen}
+				onSave={onRecordSave}
 			/>
 		</>
 	)

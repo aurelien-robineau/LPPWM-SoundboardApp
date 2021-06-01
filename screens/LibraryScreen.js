@@ -8,6 +8,7 @@ import uuid from 'react-native-uuid'
 
 import SoundList from '../components/library/SoundList'
 import RecorderBottomSheet from '../components/modals/RecorderBottomSheet'
+import DownloadSoundBottomSheet from '../components/modals/DownloadSoundBottomSheet'
 
 import { libraryActions } from '../store/librarySlice'
 import config from '../config'
@@ -19,6 +20,7 @@ const soundListHeight =
 
 const LibraryScreen = () => {
 	const [isRecorderOpen, setIsRecorderOpen] = useState(false)
+	const [isDownloadSheetOpen, setIsDownloadSheetOpen] = useState(false)
 
 	const sounds = useSelector(state => state.library.sounds)
 
@@ -44,6 +46,10 @@ const LibraryScreen = () => {
 		}
 
 		setIsRecorderOpen(true)
+	}
+
+	const openDownloadBottomSheet = async () => {
+		setIsDownloadSheetOpen(true)
 	}
 
 	const onRecordSave = (uri, name) => {
@@ -74,7 +80,7 @@ const LibraryScreen = () => {
 		<>
 			<View style={styles.container}>
 				<View style={styles.header}>
-					<TouchableOpacity style={styles.button}>
+					<TouchableOpacity style={styles.button} onPress={openDownloadBottomSheet}>
 						<Icon name="search" size={26} color="white" />
 						<Text style={styles.buttonText}>Rechercher en ligne</Text>
 					</TouchableOpacity>
@@ -96,6 +102,10 @@ const LibraryScreen = () => {
 			<RecorderBottomSheet
 				isOpen={isRecorderOpen}
 				onSave={onRecordSave}
+			/>
+
+			<DownloadSoundBottomSheet
+				isOpen={isDownloadSheetOpen}
 			/>
 		</>
 	)

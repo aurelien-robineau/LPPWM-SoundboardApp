@@ -41,7 +41,7 @@ const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
 			setPlayback(playback)
 			setPlaybackStatus(playbackStatus)
 		} catch(e) {
-			setLoadingStatus('error')
+			setPlaybackStatus({ isLoaded: false })
 		}
 	}
 

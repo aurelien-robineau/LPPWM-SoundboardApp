@@ -9,7 +9,7 @@ import Recorder from '../../components/library/Recorder'
 import config from '../../config'
 import { formatAudioDuration } from '../../utils'
 
-const component = ({ isOpen, onSave }) => {
+const RecorderBottomSheet = ({ isOpen, onSave }) => {
 	const [record, setRecord] = useState(null)
 	const [sound, setSound] = useState(null)
 	const [isPlaying, setIsPlaying] = useState(false)
@@ -181,4 +181,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default component
+export default RecorderBottomSheet

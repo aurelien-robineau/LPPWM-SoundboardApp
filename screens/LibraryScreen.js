@@ -93,8 +93,7 @@ const LibraryScreen = () => {
 				<Text style={styles.categoryLabel}>Mes sons</Text>
 				<SoundList
 					sounds={sounds}
-					selectedItem={null}
-					// onChange={setSound}
+					loadFrom="local"
 					style={{ height: soundListHeight }}
 				/>
 			</View>

@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, FlatList } from 'react-native'
 
 import SoundCard from './SoundCard'
 
-const SoundList = ({ sounds, isInput, selectedItem, onChange, style }) => {
-	const [selectedSound, setSelectedSound] = useState(selectedItem)
-
+const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, style }) => {
 	const renderSound = ({ item }) => {
 		return (
 			<SoundCard
-				sound={item}
+				soundId={item.id}
+				loadFrom={loadFrom}
 				isSelectable={isInput}
-				selected={item.id === selectedSound}
+				selected={item.id === selectedItem}
 				onChange={checked => {
 					if (checked) {
-						setSelectedSound(item.id)
 						if (onChange) onChange(item.id)
 					}
 				}}

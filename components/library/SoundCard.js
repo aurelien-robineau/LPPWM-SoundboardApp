@@ -1,105 +1,66 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, Pressable, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, Text, Pressable, TouchableOpacity} from 'react-native'
+import { useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements'
-import { Audio } from 'expo-av'
 
+import SoundInfoModal from '../modals/SoundInfoModal'
 import config from '../../config'
-import { formatAudioDuration } from '../../utils'
+import { types } from '../../constants/sounds'
 
-const SoundCard = ({ sound, isSelectable, selected, onChange }) => {
-	const [playback, setPlayback] = useState(null)
-	const [playbackStatus, setPlaybackStatus] = useState(null)
+const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
+	const [sound, setSound] = useState(null)
+	const [infoModalVisible, setInfoModalVisible] = useState(false)
+
+	const sounds = useSelector(state => state.library.sounds)
 	
 	useEffect(() => {
-		loadSound()
-	}, [])
+		if (loadFrom === 'local')
+			setSound(sounds.find(s => s.id === soundId))
+	}, [soundId, loadFrom])
 
-	useEffect(() => {
-		unloadSound()
-	})
-
-	const toggleSound = () => {
-		if (playback) {
-			if (playbackStatus.isPlaying)
-				playback.replayAsync()
-			else
-				playback.pauseAsync()
-		}
+	const _onPadPressed = () => {
+		if (isSelectable && onChange)
+			onChange(!selected)
 	}
 
-	const loadSound = async () => {
-		
-		try {
-			await unloadSound()
-
-			const { sound: playback, status: playbackStatus} = await Audio.Sound.createAsync(
-				{ uri: sound.uri },
-				{ isLooping: false },
-				onPlaybackStatusUpdate
-			)
-
-			setPlayback(playback)
-			setPlaybackStatus(playbackStatus)
-		} catch(e) {
-			setPlaybackStatus({ isLoaded: false })
-		}
-	}
-
-	const unloadSound = async () => {
-		if (playback)
-			await playback.unloadAsync()
-	}
-
-	const onPlaybackStatusUpdate = (status) => {
-		setPlaybackStatus(status)
-	}
-
-	return playback && playbackStatus && (
-		<Pressable onPress={() => onChange(!selected)}>
-			<View style={styles.card}>
-				{ isSelectable &&
-					<View style={[
-						styles.selectorIndicator,
-						selected ? styles.indicatorOn : styles.indicatorOff
-					]}>
-						{ selected &&
-							<Icon
-								name="done"
-								size={18}
-								color="#ffffff"
-							/>
-						}
-					</View>
-				}
-				<View style={[styles.infosContainer, { marginLeft: isSelectable ? 20 : 0 }]}>
-					<Text style={styles.name}>{ sound.name }</Text>
-					{ playbackStatus.isLoaded &&
-						<Text style={styles.duration}>{ formatAudioDuration(playbackStatus.durationMillis) }</Text>
+	return sound && (
+		<>
+			<Pressable
+				onPress={_onPadPressed}
+			>
+				<View style={styles.card}>
+					{ isSelectable &&
+						<View style={[
+							styles.selectorIndicator,
+							selected ? styles.indicatorOn : styles.indicatorOff
+						]}>
+							{ selected &&
+								<Icon
+									name="done"
+									size={18}
+									color="#ffffff"
+								/>
+							}
+						</View>
 					}
+					<View style={[styles.infosContainer, { marginLeft: isSelectable ? 20 : 0 }]}>
+						<Text style={styles.name}>{ sound.name }</Text>
+						<Text style={styles.type}>{ loadFrom === 'local' ? types[sound.type ]: types.freesound }</Text>
+					</View>
+
+					<TouchableOpacity onPress={() => setInfoModalVisible(true)}>
+						<Icon name="more-vert" size={30} color="white" />
+					</TouchableOpacity>
 				</View>
-				{ playbackStatus === null &&
-					<ActivityIndicator size="small" color="#ffffff" />
-				}
+		</Pressable>
 
-				{ playbackStatus && playbackStatus.isLoaded &&
-					<Pressable onPress={toggleSound}>
-						<Icon
-							name={playbackStatus.isPlaying ? 'pause' : 'play-arrow'}
-							size={34}
-							color="white"
-						/>
-					</Pressable>
-				}
-
-				{ playbackStatus && !playbackStatus.isLoaded &&
-					<Icon
-						name="error"
-						size={34}
-						color="white"
-					/>
-				}
-			</View>
-      </Pressable>
+		<SoundInfoModal
+			soundId={soundId}
+			loadFrom={loadFrom}
+			isVisible={infoModalVisible}
+			onClose={() => setInfoModalVisible(false)}
+		/>
+	  </>
 	)
 }
 
@@ -142,7 +103,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 
-	duration: {
+	type: {
 		color: '#dddddd',
 		fontSize: 14,
 	}

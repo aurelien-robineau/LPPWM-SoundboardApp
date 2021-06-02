@@ -53,7 +53,8 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 			<Text style={styles.inputLabel}>Son</Text>
 			<SoundList
 				sounds={sounds}
-				selectedItem={pad ? pad.sound : null}
+				loadFrom="local"
+				selectedItem={sound}
 				onChange={setSound}
 				style={{ height: soundListHeight }}
 				isInput

@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Modal, View, Dimensions, Pressable, Text, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Audio } from 'expo-av'
+import * as FileSystem from 'expo-file-system'
 
 import config from '../../config'
 import { types } from '../../constants/sounds'
 import { formatAudioDuration } from '../../utils'
+import { libraryActions } from '../../store/librarySlice'
 
 const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
+	const dispatch = useDispatch()
+	const sounds = useSelector(state => state.library.sounds)
+
 	const [sound, setSound] = useState(null)
 	const [playback, setPlayback] = useState(null)
 	const [playbackStatus, setPlaybackStatus] = useState(null)
-
-	const sounds = useSelector(state => state.library.sounds)
 
 	useEffect(() => {
 		loadSound()
@@ -64,6 +67,24 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 		setPlaybackStatus(status)
 	}
 
+	const _deleteSound = () => {
+		if (sound) {
+			dispatch(libraryActions.removeSound({
+				id: soundId
+			}))
+
+			FileSystem.deleteAsync(sound.uri, {
+				idempotent: true
+			})
+
+			if (onClose) onClose()
+		}
+	}
+
+	const _downloadSound = () => {
+		console.warn('TODO')
+	}
+
 	return sound && (
 		<Modal
 			animationType="fade"
@@ -83,13 +104,35 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 					<Text style={styles.type}>{ loadFrom === 'local' ? types[sound.type] : types.freesound }</Text>
 
 					{ playback && playbackStatus &&
-						<>
-							<TouchableOpacity onPress={toggleSound} style={styles.audioPlayer}>
+						<View style={styles.audioPlayer}>
+							<TouchableOpacity onPress={toggleSound}>
 								<Icon name={playbackStatus.isPlaying ? 'stop' : 'play-arrow' } size={56} color="white" />
 							</TouchableOpacity>
 							<Text style={styles.duration}>{ formatAudioDuration(playbackStatus.durationMillis) }</Text>
-						</>
+						</View>
 					}
+
+					<View style={styles.controlsContainer}>
+						{ loadFrom === 'local' && sound.type !== 'default' &&
+							<TouchableOpacity
+								style={[styles.button, { backgroundColor: '#ff4747' }]}
+								onPress={_deleteSound}
+							>
+								<Icon name="delete" size={26} color="white" />
+								<Text style={styles.buttonText}>Supprimer</Text>
+							</TouchableOpacity>
+						}
+
+						{ loadFrom === 'freesound' &&
+							<TouchableOpacity
+								style={[styles.button, { backgroundColor: config.colors.primary }]}
+								onPress={_downloadSound}
+							>
+								<Icon name="file-download" size={26} color="white" />
+								<Text style={styles.buttonText}>Télécharger</Text>
+							</TouchableOpacity>
+						}
+					</View>
 				</View>
 			</View>
 		</Modal>
@@ -146,13 +189,38 @@ const styles = StyleSheet.create({
 	},
 
 	audioPlayer: {
-		marginTop: 20
+		marginTop: 20,
+		flex: 1
 	},
 
 	duration: {
 		fontSize: 16,
 		color: '#dddddd',
 		textAlign: 'center'
+	},
+
+	controlsContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+
+	button: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		borderRadius: 50,
+		width: '100%',
+		marginTop: 10
+	},
+
+	buttonText: {
+		color: 'white',
+		fontSize: 16,
+		marginLeft: 10
 	}
 })
 

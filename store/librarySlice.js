@@ -56,6 +56,11 @@ const librarySlice = createSlice({
 		addSound(state, action) {
 			const { id, type, name, uri } = action.payload
 			state.sounds.push({ id, type, name, uri })
+		},
+
+		removeSound(state, action) {
+			const { id } = action.payload
+			state.sounds = state.sounds.filter(sound => sound.id !== id)
 		}
 	}
 })

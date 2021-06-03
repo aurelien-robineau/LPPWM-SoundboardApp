@@ -57,6 +57,7 @@ const DownloadSoundBottomSheet = ({ isOpen }) => {
 						style={styles.searchInput}
 						value={research}
 						onChangeText={setResearch}
+						onEndEditing={_handleResearch}
 						placeholder="Recherche..."
 						placeholderTextColor="#999999"
 					/>

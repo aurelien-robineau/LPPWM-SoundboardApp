@@ -7,7 +7,7 @@ const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, style })
 	const renderSound = ({ item }) => {
 		return (
 			<SoundCard
-				soundId={item.id}
+				soundId={item.id.toString()}
 				loadFrom={loadFrom}
 				isSelectable={isInput}
 				selected={item.id === selectedItem}

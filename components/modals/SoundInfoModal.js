@@ -19,24 +19,46 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	const [playbackStatus, setPlaybackStatus] = useState(null)
 
 	useEffect(() => {
-		loadSound()
-		return () => {
-			unloadSound()
-		}
+		loadSoundInfos()
 	}, [soundId, loadFrom])
 
-	const loadSound = async () => {
+	useEffect(() => {
+		if (isVisible) {
+			loadPlayback()
+		}
+
+		return () => {
+			unloadPlayback()
+		}
+	}, [isVisible])
+
+	const loadSoundInfos = async () => {
 		let sound = null
-		if (loadFrom === 'local')
+		if (loadFrom === 'local') {
 			sound = sounds.find(s => s.id === soundId)
+			setSound(sound)
+		}
+		else if (loadFrom === 'freesound') {
+			FreeSoundApi.getSoundInfos(soundId)
+			.then(async (response) => {
+				const data = await response.json()
+				setSound({
+					name: data.name,
+					uri: data.previews['preview-hq-mp3']
+				})
+			})
+			.catch(error => {})
+		}
+	}
 
-		setSound(sound)
-
+	const loadPlayback = async () => {
+		console.log(sound)
 		if (sound) {
 			try {
 				const { sound: playback, status: playbackStatus } = await Audio.Sound.createAsync({
 					uri: sound.uri
 				}, {}, _onPlaybackStatusUpdate)
+
 				setPlayback(playback)
 				setPlaybackStatus(playbackStatus)
 			} catch (e) {
@@ -47,7 +69,7 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 		}
 	}
 
-	const unloadSound = () => {
+	const unloadPlayback = () => {
 		if (playback) {
 			playback.unloadAsync()
 		}

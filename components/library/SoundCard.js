@@ -18,7 +18,7 @@ const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 		if (loadFrom === 'local') {
 			setSound(sounds.find(s => s.id === soundId))
 		}
-		else {
+		else if (loadFrom === 'freesound') {
 			FreeSoundApi.getSoundInfos(soundId)
 			.then(async (response) => {
 				const data = await response.json()

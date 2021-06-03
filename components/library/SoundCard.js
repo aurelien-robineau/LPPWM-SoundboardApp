@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements'
 import SoundInfoModal from '../modals/SoundInfoModal'
 import config from '../../config'
 import { types } from '../../constants/sounds'
+import FreeSoundApi from '../../apis/FreeSoundApi'
 
 const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 	const [sound, setSound] = useState(null)
@@ -14,8 +15,17 @@ const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 	const sounds = useSelector(state => state.library.sounds)
 	
 	useEffect(() => {
-		if (loadFrom === 'local')
+		if (loadFrom === 'local') {
 			setSound(sounds.find(s => s.id === soundId))
+		}
+		else {
+			FreeSoundApi.getSoundInfos(soundId)
+			.then(async (response) => {
+				const data = await response.json()
+				setSound({ name: data.name})
+			})
+			.catch(error => {})
+		}
 	}, [soundId, loadFrom])
 
 	const _onPadPressed = () => {

@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions, TextInput, FlatList } from 'react-native'
-import { Icon } from 'react-native-elements'
+import { View, StyleSheet, Dimensions, TextInput,TouchableOpacity, StatusBar } from 'react-native'
 import RBSheet from 'react-native-raw-bottom-sheet'
-import { Audio } from 'expo-av'
+import { Icon } from 'react-native-elements'
 
-import Recorder from '../../components/library/Recorder'
+import SoundList from '../library/SoundList'
 
 import config from '../../config'
-import { formatAudioDuration } from '../../utils'
 import FreeSoundApi from '../../apis/FreeSoundApi'
 
+const soundListHeight =
+	Dimensions.get('window').height
+	- (StatusBar.currentHeight)
+	- 140
+
 const DownloadSoundBottomSheet = ({ isOpen }) => {
-	const [research, setResearch] = useState(null)
+	const [research, setResearch] = useState('')
 	const [sounds, setSounds] = useState([])
 
 	const refRBSheet = useRef()
@@ -24,20 +27,15 @@ const DownloadSoundBottomSheet = ({ isOpen }) => {
 		}
 	}, [isOpen])
 
-	const _handleSearchChange = (text) => {
-		setResearch(text)
-		FreeSoundApi.textSearch(text)
-			.then(async (response) => {
-				const data = await response.json()
-				setSounds(data.results)
-			})
-			.catch(error => {})
-	}
-
-	const _renderSound = ({ item }) => {
-		return (
-			<Text>{ item.name }</Text>
-		)
+	const _handleResearch = () => {
+		if (research) {
+			FreeSoundApi.textSearch(research)
+				.then(async (response) => {
+					const data = await response.json()
+					setSounds(data.results)
+				})
+				.catch(error => {})
+		}
 	}
 
 	return (
@@ -54,18 +52,28 @@ const DownloadSoundBottomSheet = ({ isOpen }) => {
 			}}
 		>
 			<View style={styles.bottomSheetContainer}>
-				<TextInput
-					style={styles.searchInput}
-					value={research}
-					onChangeText={_handleSearchChange}
-					placeholder="Recherche..."
-					placeholderTextColor="#999999"
-				/>
+				<View style={styles.searchInputWrapper}>
+					<TextInput
+						style={styles.searchInput}
+						value={research}
+						onChangeText={setResearch}
+						placeholder="Recherche..."
+						placeholderTextColor="#999999"
+					/>
+					<TouchableOpacity onPress={_handleResearch}>
+						<Icon
+							name="search"
+							size={26}
+							color="white"
+							style={styles.searchIcon}
+						/>
+					</TouchableOpacity>
+				</View>
 
-				<FlatList
-					data={sounds}
-					renderItem={_renderSound}
-					keyExtractor={item => item.id.toString()}
+				<SoundList
+					sounds={sounds}
+					loadFrom="freesound"
+					style={{ height: soundListHeight }}
 				/>
 			</View>
 		</RBSheet>
@@ -79,12 +87,24 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 10
 	},
 
+	searchInputWrapper: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		backgroundColor: config.colors.background,
+		marginBottom: 10
+	},
+
 	searchInput: {
+		flex: 1,
 		color: 'white',
 		fontSize: 18,
-		backgroundColor: config.colors.background,
 		paddingHorizontal: 20,
 		paddingVertical: 15,
+	},
+
+	searchIcon: {
+		paddingHorizontal: 15
 	}
 })
 

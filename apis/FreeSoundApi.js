@@ -3,8 +3,16 @@ export default FreeSoundApi = {
 		return fetch(FreeSoundApi._constructSearchUrl(research))
 	},
 
+	getSoundInfos: async (soundId) => {
+		return fetch(FreeSoundApi._constructGetInfoUrl(soundId))
+	},
+
 	_constructSearchUrl: (research) => {
 		return `${FreeSoundApi._config._baseUrl}/search/text/?query=${research}&page_size=${FreeSoundApi._config._pageSize}&token=${FreeSoundApi._config._secretToken}`
+	},
+
+	_constructGetInfoUrl: (soundId) => {
+		return `${FreeSoundApi._config._baseUrl}/sounds/${soundId}/?token=${FreeSoundApi._config._secretToken}`
 	},
 
 	_config: {

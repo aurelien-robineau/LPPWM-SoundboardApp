@@ -13,7 +13,7 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
-				<StatusBar backgroundColor={config.colors.main} barStyle='light-content' />
+				<StatusBar backgroundColor={config.colors.dark} barStyle='light-content' />
 				<NavigationContainer>
 					<MainNavigator />
 				</NavigationContainer>

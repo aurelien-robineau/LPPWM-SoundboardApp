@@ -32,7 +32,7 @@ const TabNavigator = () => {
 					)
 				}
 			})}
-			barStyle={{ backgroundColor: config.colors.main }}
+			barStyle={{ backgroundColor: config.colors.dark }}
 			activeColor={config.colors.text}
   			inactiveColor="gray"
 		>

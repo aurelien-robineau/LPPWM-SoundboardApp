@@ -13,7 +13,7 @@ const MainNavigator = () => {
 			<Stack.Screen name="Home" component={TabNavigator} options={{
 				title: 'Soundboard App',
 				headerStyle: {
-            		backgroundColor: config.colors.main,
+            		backgroundColor: config.colors.dark,
           		},
 				headerTintColor: config.colors.text
 			}}/>

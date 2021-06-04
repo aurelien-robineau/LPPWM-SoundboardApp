@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 10,
 		paddingVertical: 15,
-		backgroundColor: config.colors.main
+		backgroundColor: config.colors.dark
 	},
 
 	title: {

@@ -90,7 +90,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 
 		setPlaybackStatus(status)
 	}
-	
+
 	const savePad = () => {
 		if (typeof onSave === 'function')
 			onSave({ color, sound: sound.id, crop })
@@ -170,7 +170,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 								<Icon
 									name={playbackStatus.isPlaying ? 'stop' : 'play-arrow'}
 									size={46}
-									color="white"
+									color={config.colors.text}
 								/>
 								<Text style={styles.audioDuration}>
 									{ formatAudioDuration(crop ? crop[1] - crop[0] : playbackStatus.durationMillis) }
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
 	},
 
 	squareButtonText: {
-		color: "white",
+		color: config.colors.text,
 		fontSize: 18,
 		textAlign: 'center'
 	}

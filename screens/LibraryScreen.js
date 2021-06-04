@@ -78,11 +78,11 @@ const LibraryScreen = () => {
 			<View style={styles.container}>
 				<View style={styles.header}>
 					<TouchableOpacity style={styles.button} onPress={openDownloadBottomSheet}>
-						<Icon name="search" size={26} color="white" />
+						<Icon name="search" size={26} color={config.colors.text} />
 						<Text style={styles.buttonText}>Rechercher en ligne</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.button} onPress={openRecordBottomSheet}>
-						<Icon name="mic" size={26} color="white" />
+						<Icon name="mic" size={26} color={config.colors.text} />
 						<Text style={styles.buttonText}>Enregistrer un son</Text>
 					</TouchableOpacity>
 				</View>
@@ -134,14 +134,14 @@ const styles = StyleSheet.create({
 	},
 
 	buttonText: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 18,
 		marginLeft: 10
 	},
 
 	categoryLabel: {
 		fontSize: 20,
-		color: 'white',
+		color: config.colors.text,
 		marginTop: 20,
 		marginBottom: 10
 	}

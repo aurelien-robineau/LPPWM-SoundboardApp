@@ -57,9 +57,9 @@ const styles = StyleSheet.create({
 	},
 
 	numberInput: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 20,
-		backgroundColor: config.colors.main,
+		backgroundColor: config.colors.dark,
 		paddingVertical: 10,
 		paddingHorizontal: 20
 	}

@@ -45,7 +45,7 @@ const Recorder = ({ onRecordEnd }) => {
 				onPressIn={startRecording}
 				onPressOut={stopRecording}
 			>
-				<Icon name="mic" size={32} color="white" />
+				<Icon name="mic" size={32} color={config.colors.text} />
 			</Pressable>
 			<Text style={styles.text}>
 				{ recording ? 'Relâcher pour arrêter' : 'Maintenir pour enregistrer' }
@@ -76,14 +76,14 @@ const styles =  StyleSheet.create({
 
 	iconWrapper: {
 		padding: 5,
-		borderColor: 'white',
+		borderColor: config.colors.text,
 		borderWidth: 2,
 		borderRadius: 40
 	},
 
 	text: {
 		fontSize: 18,
-		color: 'white',
+		color: config.colors.text,
 		marginLeft: 10,
 		flex: 2
 	},

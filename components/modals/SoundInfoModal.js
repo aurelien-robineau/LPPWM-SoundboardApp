@@ -10,7 +10,6 @@ import config from '../../config'
 import { types } from '../../constants/sounds'
 import { formatAudioDuration, getFileExtension } from '../../utils'
 import { libraryActions } from '../../store/librarySlice'
-import { isLoading } from 'expo-font'
 import { ActivityIndicator } from 'react-native'
 
 const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
@@ -143,7 +142,7 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 				<View style={styles.body}>
 					<View style={styles.header}>
 						<TouchableOpacity onPress={onClose}>
-							<Icon name="close" size={30} color="white" />
+							<Icon name="close" size={30} color={config.colors.text} />
 						</TouchableOpacity>
 					</View>
 					<Text style={styles.title}>{ sound.name }</Text>
@@ -152,7 +151,7 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 					{ playback && playbackStatus &&
 						<View style={styles.audioPlayer}>
 							<TouchableOpacity onPress={toggleSound}>
-								<Icon name={playbackStatus.isPlaying ? 'stop' : 'play-arrow' } size={56} color="white" />
+								<Icon name={playbackStatus.isPlaying ? 'stop' : 'play-arrow' } size={56} color={config.colors.text} />
 							</TouchableOpacity>
 							<Text style={styles.duration}>{ formatAudioDuration(playbackStatus.durationMillis) }</Text>
 						</View>
@@ -164,7 +163,7 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 								style={[styles.button, { backgroundColor: '#ff4747' }]}
 								onPress={_deleteSound}
 							>
-								<Icon name="delete" size={26} color="white" />
+								<Icon name="delete" size={26} color={config.colors.text} />
 								<Text style={styles.buttonText}>Supprimer</Text>
 							</TouchableOpacity>
 						}
@@ -176,10 +175,10 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 								activeOpacity={isDownloaded ? 1 : 0.2}
 							>
 								{ isDownloading
-									? <ActivityIndicator size="small" color="white" />
+									? <ActivityIndicator size="small" color={config.colors.text} />
 									: isDownloaded
-										? <Icon name="check" size={26} color="white" />
-										: <Icon name="file-download" size={26} color="white" />
+										? <Icon name="check" size={26} color={config.colors.text} />
+										: <Icon name="file-download" size={26} color={config.colors.text} />
 								}
 								<Text style={styles.buttonText}>{ isDownloaded ? 'Téléchargé' : 'Télécharger' }</Text>
 							</TouchableOpacity>
@@ -208,7 +207,7 @@ const styles = StyleSheet.create({
 	}, 
 
 	body: {
-		backgroundColor: config.colors.main,
+		backgroundColor: config.colors.dark,
 		height: Dimensions.get('window').height * 0.4,
 		width: Dimensions.get('window').width * 0.85,
 		borderRadius: 5,
@@ -230,7 +229,7 @@ const styles = StyleSheet.create({
 
 	title: {
 		fontSize: 20,
-		color: 'white',
+		color: config.colors.text,
 		textAlign: 'center'
 	},
 
@@ -270,7 +269,7 @@ const styles = StyleSheet.create({
 	},
 
 	buttonText: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 16,
 		marginLeft: 10
 	}

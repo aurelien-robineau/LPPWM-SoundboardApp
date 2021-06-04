@@ -49,7 +49,7 @@ const ColorInput = ({ items, value, onChange }) => {
 						]}
 					>
 						{ color === key &&
-							<Icon name="done" size={15} color={config.colors.main} style={styles.selectedIcon}/>
+							<Icon name="done" size={15} color={config.colors.dark} style={styles.selectedIcon}/>
 						}
 						<Image source={padLightImage} style={styles.lightImage} />
 					</View>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 	},
 
 	selectedIcon: {
-		backgroundColor: 'white',
+		backgroundColor: config.colors.text,
 		padding: 5,
 		borderRadius: 15
 	},
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderColor: 'white',
+		borderColor: config.colors.text,
 		borderRadius: 3,
 		width: '100%',
 		height: '100%'

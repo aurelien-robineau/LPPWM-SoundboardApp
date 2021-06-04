@@ -59,7 +59,7 @@ const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 					</View>
 
 					<TouchableOpacity onPress={() => setInfoModalVisible(true)}>
-						<Icon name="more-vert" size={30} color="white" />
+						<Icon name="more-vert" size={30} color={config.colors.text} />
 					</TouchableOpacity>
 				</View>
 		</Pressable>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 
 	indicatorOff: {
 		borderWidth: 2,
-		borderColor: 'white',
+		borderColor: config.colors.text,
 	},
 
 	indicatorOn: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
 	},
 
 	name: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 16,
 	},
 

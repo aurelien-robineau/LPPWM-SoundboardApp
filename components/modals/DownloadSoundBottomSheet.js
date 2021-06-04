@@ -76,7 +76,7 @@ const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 			openDuration={250}
 			customStyles={{
 				container: {
-					backgroundColor: config.colors.main,
+					backgroundColor: config.colors.dark,
 				}
 			}}
 		>
@@ -94,7 +94,7 @@ const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 						<Icon
 							name="search"
 							size={26}
-							color="white"
+							color={config.colors.text}
 							style={styles.searchIcon}
 						/>
 					</TouchableOpacity>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
 
 	searchInput: {
 		flex: 1,
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 18,
 		paddingHorizontal: 20,
 		paddingVertical: 15,

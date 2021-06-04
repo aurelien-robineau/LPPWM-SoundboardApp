@@ -39,7 +39,7 @@ const SelectSoundBottomSheet = ({ initialSoundId, isOpen, onOpen, onClose, onSou
 			openDuration={250}
 			customStyles={{
 				container: {
-					backgroundColor: config.colors.main,
+					backgroundColor: config.colors.dark,
 				}
 			}}
 		>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 	},
 
 	buttonText: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 18,
 		marginLeft: 10
 	},

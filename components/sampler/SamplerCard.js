@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 	card: {
 		paddingVertical: 30,
 		paddingHorizontal: 40,
-		backgroundColor: config.colors.main,
+		backgroundColor: config.colors.dark,
 		borderRadius: 5
 	},
 
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 	},
 
 	name: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 32
 	}
 })

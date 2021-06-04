@@ -88,7 +88,7 @@ const RecorderBottomSheet = ({ isOpen, onSave, onClose, onOpen }) => {
 			onOpen={onOpen}
 			customStyles={{
 				container: {
-					backgroundColor: config.colors.main,
+					backgroundColor: config.colors.dark,
 				}
 			}}
 		>
@@ -102,17 +102,17 @@ const RecorderBottomSheet = ({ isOpen, onSave, onClose, onOpen }) => {
 						/>
 						<View style={styles.recordPlayer}>
 							<TouchableOpacity onPress={toggleSound}>
-								<Icon name={isPlaying ? 'stop' : 'play-arrow'} size={42} color="white" />
+								<Icon name={isPlaying ? 'stop' : 'play-arrow'} size={42} color={config.colors.text} />
 							</TouchableOpacity>
 							<Text style={styles.recordPlayerText}>{ formatAudioDuration(record.durationMillis) }</Text>
 						</View>
 						<View style={styles.actionsContainer}>
 							<TouchableOpacity style={styles.actionButton} onPress={resetModal}>
-								<Icon name="delete" size={26} color="white" />
+								<Icon name="delete" size={26} color={config.colors.text} />
 								<Text style={styles.actionButtonText}>Supprimer</Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={styles.actionButton} onPress={onSavePressed}>
-								<Icon name="save" size={26} color="white" />
+								<Icon name="save" size={26} color={config.colors.text} />
 								<Text style={styles.actionButtonText}>Enregistrer</Text>
 							</TouchableOpacity>
 						</View>
@@ -145,15 +145,15 @@ const styles = StyleSheet.create({
 
 	recordPlayerText: {
 		fontSize: 18,
-		color: "white",
+		color: config.colors.text,
 		marginLeft: 10
 	},
 
 	recordNameInput: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 26,
 		textAlign: 'center',
-		borderBottomColor: 'white',
+		borderBottomColor: config.colors.text,
 		borderBottomWidth: 2,
 		marginBottom: 10
 	},
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
 	},
 
 	actionButtonText: {
-		color: 'white',
+		color: config.colors.text,
 		fontSize: 16,
 		marginLeft: 5
 	}

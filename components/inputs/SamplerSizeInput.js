@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native'
 
+import config from '../../config'
+
 const samplerSizes = [{
 		name: '3x3',
 		numberOfRows: 3,
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderColor: 'white',
+		borderColor: config.colors.text,
 		borderRadius: 3,
 		height: 130,
 		width: 130,

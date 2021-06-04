@@ -24,6 +24,8 @@ const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
 					null,
 					(status) => _onPlaybackStatusUpdate(status, playback, crop)
 				)
+
+				playback.setProgressUpdateIntervalAsync(100)
 				setPlayback(playback)
 			}
 		} catch (e) {

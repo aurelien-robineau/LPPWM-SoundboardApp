@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, StyleSheet, Dimensions, View, TouchableOpacity} from 'react-native'
+import { Text, StyleSheet, Dimensions, View, TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { Audio } from 'expo-av'
@@ -8,6 +8,7 @@ import { Icon } from 'react-native-elements'
 import ColorInput from '../inputs/ColorInput'
 import ModalTemplate from './ModalTemplate'
 import SoundCard from '../library/SoundCard'
+import SelectSoundBottomSheet from './SelectSoundBottomSheet'
 
 import config from '../../config'
 import { colors } from '../../constants/pads'
@@ -24,6 +25,8 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	const [playback, setPlayback] = useState(null)
 	const [playbackStatus, setPlaybackStatus] = useState(null)
 
+	const [isSelectSoundSheetOpen, setIsSelectSoundSheetOpen] = useState(false)
+
 	const sounds = useSelector(state => state.library.sounds)
 
 	useEffect(() => {
@@ -39,8 +42,8 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 		return () => unloadPlayback()
 	}, [pad, visible])
 	
-	const loadPlayback = async () => {
-		const sound = sounds.find(s => s.id === pad.sound)
+	const loadPlayback = async (soundId) => {
+		const sound = sounds.find(s => s.id === (soundId ? soundId : pad.sound))
 		if (sound) {
 			try {
 				const { sound: playback, status: playbackStatus } = await Audio.Sound.createAsync({
@@ -58,9 +61,9 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 		}
 	}
 
-	const unloadPlayback = () => {
+	const unloadPlayback = async () => {
 		if (playback) {
-			playback.unloadAsync()
+			await playback.unloadAsync()
 		}
 	}
 
@@ -98,67 +101,91 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 			onClose()
 	}
 
-    return (
-		<ModalTemplate
-			title="Modifier le pad"
-			visible={visible}
-			onClose={onClose}
-			onSave={savePad}
-		>
-			<Text style={styles.inputLabel}>Couleur</Text>
-			<ColorInput
-				items={availableColors}
-				value={color}
-				onChange={setColor}
-			/>
+	const onSoundChange = async (soundId) => {
+		setSound(sounds.find(s => s.id === soundId))
+		setIsSelectSoundSheetOpen(false)
 
-			{ sound &&
-			<>
-				<Text style={styles.inputLabel}>Son</Text>
-				<SoundCard
-					soundId={sound.id}
-					loadFrom="local"
+		await unloadPlayback()
+		loadPlayback(soundId)
+		setCrop(null)
+	}
+
+    return (
+		<>
+			<ModalTemplate
+				title="Modifier le pad"
+				visible={visible}
+				onClose={onClose}
+				onSave={savePad}
+			>
+				<Text style={styles.inputLabel}>Couleur</Text>
+				<ColorInput
+					items={availableColors}
+					value={color}
+					onChange={setColor}
 				/>
 
-				{ playback &&
-					<>
-						<Text style={styles.inputLabel}>Rogner</Text>
-						<View style={styles.sliderWrapper}>
-							<MultiSlider
-								min={0}
-								max={playbackStatus.durationMillis}
-								step={1}
-								values={crop ? [crop[0], crop[1]] : [0, playbackStatus.durationMillis]}
-								sliderLength={Dimensions.get('window').width - 80}
-								selectedStyle={{ backgroundColor: config.colors.primary }}
-								markerStyle={{ backgroundColor: config.colors.primary, height: 25, width: 25 }}
-								pressedMarkerStyle={{ backgroundColor: config.colors.primary, height: 30, width: 30 }}
-								onValuesChangeFinish={values => {
-										setCrop(
-											values[0] !== 0 || values[1] !== playbackStatus.durationMillis
-												? values
-												: null
-										)
-								}}
-							/>
-						</View>
+				{ sound &&
+				<>
+					<Text style={styles.inputLabel}>Son</Text>
+					<SoundCard
+						soundId={sound.id}
+						loadFrom="local"
+					/>
+					<TouchableOpacity style={styles.squareButton} onPress={() => setIsSelectSoundSheetOpen(true)}>
+						<Text style={styles.squareButtonText}>Changer</Text>
+					</TouchableOpacity>
 
-						<Text style={styles.inputLabel}>Écouter</Text>
-						<TouchableOpacity onPress={toggleSound}>
-							<Icon
-								name={playbackStatus.isPlaying ? 'stop' : 'play-arrow'}
-								size={46}
-								color="white"
-							/>
-							<Text style={styles.audioDuration}>
-								{ formatAudioDuration(crop ? crop[1] - crop[0] : playbackStatus.durationMillis) }
-							</Text>
-						</TouchableOpacity>
-					</>
+					{ playback &&
+						<>
+							<Text style={styles.inputLabel}>Rogner</Text>
+							<View style={styles.sliderWrapper}>
+								<MultiSlider
+									min={0}
+									max={playbackStatus.durationMillis}
+									step={1}
+									values={crop ? [crop[0], crop[1]] : [0, playbackStatus.durationMillis]}
+									sliderLength={Dimensions.get('window').width - 80}
+									selectedStyle={{ backgroundColor: config.colors.primary }}
+									markerStyle={{ backgroundColor: config.colors.primary, height: 25, width: 25 }}
+									pressedMarkerStyle={{ backgroundColor: config.colors.primary, height: 30, width: 30 }}
+									onValuesChangeFinish={values => {
+											setCrop(
+												values[0] !== 0 || values[1] !== playbackStatus.durationMillis
+													? values
+													: null
+											)
+									}}
+								/>
+							</View>
+
+							<Text style={styles.inputLabel}>Écouter</Text>
+							<TouchableOpacity onPress={toggleSound}>
+								<Icon
+									name={playbackStatus.isPlaying ? 'stop' : 'play-arrow'}
+									size={46}
+									color="white"
+								/>
+								<Text style={styles.audioDuration}>
+									{ formatAudioDuration(crop ? crop[1] - crop[0] : playbackStatus.durationMillis) }
+								</Text>
+							</TouchableOpacity>
+						</>
+					}
+				</>
 				}
-			</>
+			</ModalTemplate>
+
+			{ sound &&
+				<SelectSoundBottomSheet
+					isOpen={isSelectSoundSheetOpen}
+					initialSoundId={sound.id}
+					onSoundChange={onSoundChange}
+					onOpen={() => setIsSelectSoundSheetOpen(true)}
+					onClose={() => setIsSelectSoundSheetOpen(false)}
+				/>
 			}
-		</ModalTemplate>
+		</>
     )
 }
 
@@ -179,6 +206,19 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		textAlign: 'center',
 		color: '#dddddd'
+	},
+
+	squareButton: {
+		backgroundColor: config.colors.primary,
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		borderRadius: 3
+	},
+
+	squareButtonText: {
+		color: "white",
+		fontSize: 18,
+		textAlign: 'center'
 	}
 })
 

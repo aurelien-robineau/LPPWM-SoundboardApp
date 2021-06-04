@@ -39,13 +39,8 @@ const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
 
 	const playSound = async () => {
 		if (playback) {
-			if (crop) {
-				playback.setPositionAsync(crop[0])
-				playback.playAsync()
-			}
-			else {
-				playback.replayAsync()
-			}
+			playback.setPositionAsync(crop ? crop[0] : 0)
+			playback.playAsync()
 		}
 	}
 

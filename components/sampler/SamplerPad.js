@@ -22,7 +22,7 @@ const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
 				const { sound: playback } = await Audio.Sound.createAsync({
 					uri: soundInfos.uri },
 					null,
-					_onPlaybackStatusUpdate
+					(status) => _onPlaybackStatusUpdate(status, playback, crop)
 				)
 				setPlayback(playback)
 			}
@@ -44,10 +44,10 @@ const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
 		}
 	}
 
-	const _onPlaybackStatusUpdate = (status) => {
+	const _onPlaybackStatusUpdate = (status, playback, crop) => {
 		if (crop && status.positionMillis >= crop[1]) {
 			try {
-				playback.pauseAsync()
+				playback.stopAsync()
 			} catch (e) {}
 		}
 	}

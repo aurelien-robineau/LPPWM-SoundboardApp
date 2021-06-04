@@ -48,7 +48,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 			try {
 				const { sound: playback, status: playbackStatus } = await Audio.Sound.createAsync({
 					uri: sound.uri
-				}, {}, _onPlaybackStatusUpdate)
+				}, {}, (status) => _onPlaybackStatusUpdate(status, playback, crop))
 
 				playback.setProgressUpdateIntervalAsync(100)
 
@@ -70,7 +70,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	const toggleSound = async () => {
 		if (playback) {
 			if (playbackStatus?.isPlaying) {
-				playback.pauseAsync()
+				playback.stopAsync()
 			} else {
 				if (crop) {
 					playback.setPositionAsync(crop[0])
@@ -83,16 +83,14 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 		}
 	}
 
-	const _onPlaybackStatusUpdate = (status) => {
+	const _onPlaybackStatusUpdate = (status, playback, crop) => {
 		if (crop && status.positionMillis >= crop[1]) {
-			try {
-				playback.pauseAsync()
-			} catch (e) {}
+			playback.stopAsync()
 		}
 
 		setPlaybackStatus(status)
 	}
-
+	
 	const savePad = () => {
 		if (typeof onSave === 'function')
 			onSave({ color, sound: sound.id, crop })
@@ -150,10 +148,18 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 									markerStyle={{ backgroundColor: config.colors.primary, height: 25, width: 25 }}
 									pressedMarkerStyle={{ backgroundColor: config.colors.primary, height: 30, width: 30 }}
 									onValuesChangeFinish={values => {
-											setCrop(
-												values[0] !== 0 || values[1] !== playbackStatus.durationMillis
-													? values
-													: null
+										const newCrop = values[0] !== 0 || values[1] !== playbackStatus.durationMillis
+											? values
+											: null
+
+										setCrop(newCrop)
+
+											playback.setOnPlaybackStatusUpdate(
+												(status) => _onPlaybackStatusUpdate(
+													status,
+													playback,
+													newCrop
+												)
 											)
 									}}
 								/>

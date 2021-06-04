@@ -32,7 +32,7 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 		if (isVisible) {
 			loadPlayback()
 		} else if (playbackStatus?.isPlaying) {
-			playback.pauseAsync()
+			playback.stopAsync()
 		}
 
 		return () => {
@@ -82,7 +82,7 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	const toggleSound = async () => {
 		if (playback) {
 			if (playbackStatus?.isPlaying) {
-				playback.pauseAsync()
+				playback.stopAsync()
 			} else {
 				playback.replayAsync()
 			}

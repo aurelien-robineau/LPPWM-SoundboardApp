@@ -52,7 +52,7 @@ const RecorderBottomSheet = ({ isOpen, onSave, onClose, onOpen }) => {
 
 	const toggleSound = async () => {
 		if (isPlaying) {
-			sound.pauseAsync()
+			sound.stopAsync()
 		} else {
 			sound.replayAsync()
 		}

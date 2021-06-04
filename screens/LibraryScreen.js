@@ -12,6 +12,7 @@ import DownloadSoundBottomSheet from '../components/modals/DownloadSoundBottomSh
 
 import { libraryActions } from '../store/librarySlice'
 import config from '../config'
+import { getFileExtension } from '../utils'
 
 const soundListHeight =
 	Dimensions.get('window').height
@@ -71,11 +72,6 @@ const LibraryScreen = () => {
 		}))
 	}
 
-	const getFileExtension = (uri) => {
-		const splittedUri = uri.split('.')
-		return splittedUri[splittedUri.length - 1]
-	}
-
 	return (
 		<>
 			<View style={styles.container}>
@@ -101,10 +97,14 @@ const LibraryScreen = () => {
 			<RecorderBottomSheet
 				isOpen={isRecorderOpen}
 				onSave={onRecordSave}
+				onClose={() => setIsRecorderOpen(false)}
+				onOpen={() => setIsRecorderOpen(true)}
 			/>
 
 			<DownloadSoundBottomSheet
 				isOpen={isDownloadSheetOpen}
+				onClose={() => setIsDownloadSheetOpen(false)}
+				onOpen={() => setIsDownloadSheetOpen(true)}
 			/>
 		</>
 	)

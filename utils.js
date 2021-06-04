@@ -11,3 +11,8 @@ export const formatAudioDuration = (durationInMillis) => {
 
 	return `${minutes}min ${seconds}sec ${millis.toFixed(0)}ms` 
 }
+
+export const getFileExtension = (uri) => {
+	const splittedUri = uri.split('.')
+	return splittedUri[splittedUri.length - 1]
+}

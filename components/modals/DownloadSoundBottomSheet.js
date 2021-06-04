@@ -13,7 +13,7 @@ const soundListHeight =
 	- (StatusBar.currentHeight)
 	- 140
 
-const DownloadSoundBottomSheet = ({ isOpen }) => {
+const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 	const [research, setResearch] = useState('')
 	const [sounds, setSounds] = useState([])
 
@@ -44,6 +44,8 @@ const DownloadSoundBottomSheet = ({ isOpen }) => {
 			height={Dimensions.get('window').height * 0.9}
 			closeOnDragDown={true}
 			closeOnPressMask={true}
+			onClose={onClose}
+			onOpen={onOpen}
 			openDuration={250}
 			customStyles={{
 				container: {

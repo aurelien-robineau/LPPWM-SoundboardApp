@@ -9,7 +9,7 @@ import Recorder from '../../components/library/Recorder'
 import config from '../../config'
 import { formatAudioDuration } from '../../utils'
 
-const RecorderBottomSheet = ({ isOpen, onSave }) => {
+const RecorderBottomSheet = ({ isOpen, onSave, onClose, onOpen }) => {
 	const [record, setRecord] = useState(null)
 	const [sound, setSound] = useState(null)
 	const [isPlaying, setIsPlaying] = useState(false)
@@ -84,6 +84,8 @@ const RecorderBottomSheet = ({ isOpen, onSave }) => {
 			closeOnDragDown={true}
 			closeOnPressMask={true}
 			openDuration={250}
+			onClose={onClose}
+			onOpen={onOpen}
 			customStyles={{
 				container: {
 					backgroundColor: config.colors.main,

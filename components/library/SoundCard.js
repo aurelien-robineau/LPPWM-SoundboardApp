@@ -55,7 +55,7 @@ const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 					}
 					<View style={[styles.infosContainer, { marginLeft: isSelectable ? 20 : 0 }]}>
 						<Text style={styles.name}>{ sound.name }</Text>
-						<Text style={styles.type}>{ loadFrom === 'local' ? types[sound.type ]: types.freesound }</Text>
+						<Text style={styles.type}>{ loadFrom === 'local' ? types[sound.type]: types.freesound }</Text>
 					</View>
 
 					<TouchableOpacity onPress={() => setInfoModalVisible(true)}>

@@ -4,11 +4,14 @@ import { Icon } from 'react-native-elements'
 import { useSelector, useDispatch } from 'react-redux'
 import { Audio } from 'expo-av'
 import * as FileSystem from 'expo-file-system'
+import uuid from 'react-native-uuid'
 
 import config from '../../config'
 import { types } from '../../constants/sounds'
-import { formatAudioDuration } from '../../utils'
+import { formatAudioDuration, getFileExtension } from '../../utils'
 import { libraryActions } from '../../store/librarySlice'
+import { isLoading } from 'expo-font'
+import { ActivityIndicator } from 'react-native'
 
 const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	const dispatch = useDispatch()
@@ -18,6 +21,9 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	const [playback, setPlayback] = useState(null)
 	const [playbackStatus, setPlaybackStatus] = useState(null)
 
+	const [isDownloading, setIsDownloading] = useState(false)
+	const [isDownloaded, setIsDownloaded] = useState(false)
+
 	useEffect(() => {
 		loadSoundInfos()
 	}, [soundId, loadFrom])
@@ -25,6 +31,8 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	useEffect(() => {
 		if (isVisible) {
 			loadPlayback()
+		} else if (playbackStatus?.isPlaying) {
+			playback.pauseAsync()
 		}
 
 		return () => {
@@ -100,7 +108,27 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	}
 
 	const _downloadSound = () => {
-		console.warn('TODO')
+		if (sound) {
+			const soundId = uuid.v4()
+			const soundUri = `${FileSystem.documentDirectory}${soundId}.${getFileExtension(sound.uri)}`
+			setIsDownloading(true)
+			FileSystem.downloadAsync(sound.uri, soundUri)
+				.then(({ uri }) => {
+					dispatch(libraryActions.addSound({
+						id: soundId,
+						type: 'downloaded',
+						name: sound.name,
+						uri: uri
+					}))
+
+					setIsDownloading(false)
+					setIsDownloaded(true)
+				})
+				.catch(error => {
+					setIsDownloading(false)
+					setIsDownloaded(false)
+				});
+		}
 	}
 
 	return sound && (
@@ -144,10 +172,16 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 						{ loadFrom === 'freesound' &&
 							<TouchableOpacity
 								style={[styles.button, { backgroundColor: config.colors.primary }]}
-								onPress={_downloadSound}
+								onPress={() => isDownloaded ? null : _downloadSound()}
+								activeOpacity={isDownloaded ? 1 : 0.2}
 							>
-								<Icon name="file-download" size={26} color="white" />
-								<Text style={styles.buttonText}>Télécharger</Text>
+								{ isDownloading
+									? <ActivityIndicator size="small" color="white" />
+									: isDownloaded
+										? <Icon name="check" size={26} color="white" />
+										: <Icon name="file-download" size={26} color="white" />
+								}
+								<Text style={styles.buttonText}>{ isDownloaded ? 'Téléchargé' : 'Télécharger' }</Text>
 							</TouchableOpacity>
 						}
 					</View>

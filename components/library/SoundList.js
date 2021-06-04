@@ -5,6 +5,7 @@ import SoundCard from './SoundCard'
 
 const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, style }) => {
 	const renderSound = ({ item }) => {
+		console.log(item)
 		return (
 			<SoundCard
 				soundId={item.id.toString()}
@@ -25,7 +26,7 @@ const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, style })
 			<FlatList
 				data={sounds}
 				renderItem={renderSound}
-				keyExtractor={item => item.id}
+				keyExtractor={item => item.id.toString()}
 			/>
 		</View>
 	)

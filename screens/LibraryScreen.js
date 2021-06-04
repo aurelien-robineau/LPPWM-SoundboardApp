@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, Dimensions, StatusBar } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
@@ -16,7 +17,7 @@ import { getFileExtension } from '../utils'
 
 const soundListHeight =
 	Dimensions.get('window').height
-	- (StatusBar.currentHeight)
+	- getStatusBarHeight()
 	- 290
 
 const LibraryScreen = () => {

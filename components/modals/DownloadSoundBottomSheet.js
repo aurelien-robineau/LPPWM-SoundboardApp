@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, StyleSheet, Dimensions, TextInput,TouchableOpacity, StatusBar } from 'react-native'
+import { View, StyleSheet, Dimensions, TextInput,TouchableOpacity } from 'react-native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import { Icon } from 'react-native-elements'
 
@@ -10,7 +11,7 @@ import FreeSoundApi from '../../apis/FreeSoundApi'
 
 const soundListHeight =
 	Dimensions.get('window').height
-	- (StatusBar.currentHeight)
+	- getStatusBarHeight()
 	- 140
 
 const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {

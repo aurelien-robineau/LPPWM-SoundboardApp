@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Dimensions, StatusBar, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, Dimensions, TouchableOpacity, Text } from 'react-native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { useSelector } from 'react-redux'
 import RBSheet from 'react-native-raw-bottom-sheet'
 
@@ -9,7 +10,7 @@ import config from '../../config'
 
 const soundListHeight =
 	Dimensions.get('window').height
-	- (StatusBar.currentHeight)
+	- getStatusBarHeight()
 	- 150
 
 const SelectSoundBottomSheet = ({ initialSoundId, isOpen, onOpen, onClose, onSoundChange }) => {

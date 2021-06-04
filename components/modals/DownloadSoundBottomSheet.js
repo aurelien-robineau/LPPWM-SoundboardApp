@@ -17,6 +17,8 @@ const soundListHeight =
 const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 	const [research, setResearch] = useState('')
 	const [sounds, setSounds] = useState([])
+	const [nextRequest, setNewRequest] = useState(null)
+	const [refreshingSounds, setRefreshingSounds] = useState(false)
 
 	const refRBSheet = useRef()
 
@@ -30,10 +32,34 @@ const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 
 	const _handleResearch = () => {
 		if (research) {
+			setRefreshingSounds(true)
 			FreeSoundApi.textSearch(research)
 				.then(async (response) => {
 					const data = await response.json()
-					setSounds(data.results)
+					if (data.results) {
+						setSounds(data.results)
+						setNewRequest(data.next)
+						refreshingSounds(false)
+					}
+
+					setRefreshingSounds(false)
+				})
+				.catch(error => {})
+		}
+	}
+
+	const _loadMoreSounds = () => {
+		if (nextRequest) {
+			setRefreshingSounds(true)
+			FreeSoundApi.sendRequest(nextRequest)
+				.then(async (response) => {
+					const data = await response.json()
+					if (data.results) {
+						setNewRequest(data.next)
+						setSounds([...sounds, ...data.results])
+					}
+
+					setRefreshingSounds(false)
 				})
 				.catch(error => {})
 		}
@@ -78,6 +104,8 @@ const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 					sounds={sounds}
 					loadFrom="freesound"
 					style={{ height: soundListHeight }}
+					onEndReached={_loadMoreSounds}
+					refreshing={refreshingSounds}
 				/>
 			</View>
 		</RBSheet>

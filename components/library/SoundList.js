@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native'
 
 import SoundCard from './SoundCard'
 
-const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, style }) => {
+const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, onEndReached, refreshing, style }) => {
 	const renderSound = ({ item }) => {
 		return (
 			<SoundCard
@@ -26,6 +26,9 @@ const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, style })
 				data={sounds}
 				renderItem={renderSound}
 				keyExtractor={item => item.id.toString()}
+				onEndReached={onEndReached}
+				onEndReachedThreshold={0.3}
+				refreshing={refreshing}
 			/>
 		</View>
 	)

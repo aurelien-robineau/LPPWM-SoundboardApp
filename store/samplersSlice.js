@@ -20,12 +20,59 @@ const initialState = {
 				},
 				{
 					color: 'pink',
-					sound: 'default-snare-808',
+					sound: 'default-clap-808',
+					crop: null
+				},
+				{
+					color: 'blue',
+					sound: 'default-hihat-808',
 					crop: null
 				},
 				{
 					color: 'purple',
+					sound: 'default-kick-808',
+					crop: null
+				},
+				{
+					color: 'blue',
+					sound: 'default-hihat-808',
+					crop: null
+				},
+				{
+					color: 'pink',
 					sound: 'default-clap-808',
+					crop: null
+				},
+				{
+					color: 'blue',
+					sound: 'default-hihat-808',
+					crop: null
+				},
+				{
+					color: 'cyan',
+					sound: 'default-openhat-808',
+					crop: null
+				},
+			]
+		},
+		{
+			name: 'B',
+			numberOfRows: 3,
+			numberOfColumns: 3,
+			pads: [
+				{
+					color: 'yellow',
+					sound: 'default-snare-808',
+					crop: null
+				},
+				{
+					color: 'orange',
+					sound: 'default-tom-rototom-808',
+					crop: null
+				},
+				{
+					color: 'yellow',
+					sound: 'default-snare-808',
 					crop: null
 				},
 				{
@@ -39,70 +86,23 @@ const initialState = {
 					crop: null
 				},
 				{
-					color: 'red',
-					sound: 'default-kick-808',
+					color: 'orange',
+					sound: 'default-tom-rototom-808',
 					crop: null
 				},
 				{
-					color: 'red',
-					sound: 'default-kick-808',
-					crop: null
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808',
-					crop: null
-				}
-			]
-		},
-		{
-			name: 'B',
-			numberOfRows: 3,
-			numberOfColumns: 3,
-			pads: [
-				{
-					color: 'cyan',
-					sound: 'default-openhat-808',
-					crop: null
-				},
-				{
-					color: 'blue',
-					sound: 'default-hihat-808',
-					crop: null
-				},
-				{
-					color: 'pink',
+					color: 'yellow',
 					sound: 'default-snare-808',
 					crop: null
 				},
 				{
-					color: 'purple',
-					sound: 'default-clap-808',
+					color: 'orange',
+					sound: 'default-tom-rototom-808',
 					crop: null
 				},
 				{
-					color: 'red',
-					sound: 'default-kick-808',
-					crop: null
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808',
-					crop: null
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808',
-					crop: null
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808',
-					crop: null
-				},
-				{
-					color: 'red',
-					sound: 'default-kick-808',
+					color: 'yellow',
+					sound: 'default-snare-808',
 					crop: null
 				}
 			]
@@ -113,8 +113,8 @@ const initialState = {
 			numberOfColumns: 3,
 			pads: [
 				{
-					color: 'cyan',
-					sound: 'default-openhat-808',
+					color: 'green',
+					sound: 'default-snare-808',
 					crop: null
 				},
 				{
@@ -123,40 +123,40 @@ const initialState = {
 					crop: null
 				},
 				{
-					color: 'pink',
+					color: 'green',
 					sound: 'default-snare-808',
 					crop: null
 				},
 				{
-					color: 'purple',
-					sound: 'default-clap-808',
+					color: 'blue',
+					sound: 'default-hihat-808',
 					crop: null
 				},
 				{
-					color: 'orange',
-					sound: 'default-tom-rototom-808',
+					color: 'green',
+					sound: 'default-snare-808',
 					crop: null
 				},
 				{
-					color: 'red',
-					sound: 'default-kick-808',
+					color: 'blue',
+					sound: 'default-hihat-808',
 					crop: null
 				},
 				{
-					color: 'red',
-					sound: 'default-kick-808',
+					color: 'green',
+					sound: 'default-snare-808',
 					crop: null
 				},
 				{
-					color: 'red',
-					sound: 'default-kick-808',
+					color: 'blue',
+					sound: 'default-hihat-808',
 					crop: null
 				},
 				{
-					color: 'red',
-					sound: 'default-kick-808',
+					color: 'green',
+					sound: 'default-snare-808',
 					crop: null
-				}
+				},
 			]
 		}
 	]

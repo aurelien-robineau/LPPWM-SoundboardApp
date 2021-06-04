@@ -12,6 +12,14 @@ import { formatAudioDuration, getFileExtension } from '../../utils'
 import { libraryActions } from '../../store/librarySlice'
 import { ActivityIndicator } from 'react-native'
 
+/**
+ * Modal to display a sound infos and to play it
+ * @param {boolean} isVisible - is the modal oppened
+ * @param {string} soundId - id of the sound to show
+ * @param {'local'|'freesound'} loadFrom - from where to load data (phone
+ * storage or freesound api)
+ * @param {Function} onClose - function to execute when the modal is closed
+ */
 const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	const dispatch = useDispatch()
 	const sounds = useSelector(state => state.library.sounds)
@@ -24,39 +32,47 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	const [isDownloaded, setIsDownloaded] = useState(false)
 
 	useEffect(() => {
-		loadSoundInfos()
+		_loadSoundInfos()
 	}, [soundId, loadFrom])
 
 	useEffect(() => {
 		if (isVisible) {
-			loadPlayback()
+			_loadPlayback()
 		} else if (playbackStatus?.isPlaying) {
 			playback.stopAsync()
 		}
 
 		return () => {
-			unloadPlayback()
+			_unloadPlayback()
 		}
 	}, [isVisible])
 
-	const loadSoundInfos = async () => {
+	/**
+	 * Load the sound infos from the sound id.
+	 * Sound is loaded from redux if loadFrom is 'local', or from the freesound
+	 * api if loadFrom is 'freesound'
+	 */
+	const _loadSoundInfos = async () => {
 		if (loadFrom === 'local') {
 			setSound(sounds.find(s => s.id === soundId))
 		}
 		else if (loadFrom === 'freesound') {
 			FreeSoundApi.getSoundInfos(soundId)
-			.then(async (response) => {
-				const data = await response.json()
-				setSound({
-					name: data.name,
-					uri: data.previews['preview-hq-mp3']
+				.then(async (response) => {
+					const data = await response.json()
+					setSound({
+						name: data.name,
+						uri: data.previews['preview-hq-mp3']
+					})
 				})
-			})
-			.catch(error => {})
+				.catch(error => {})
 		}
 	}
 
-	const loadPlayback = async () => {
+	/**
+	 * Load the sound to get it ready to play
+	 */
+	const _loadPlayback = async () => {
 		if (sound) {
 			try {
 				const { sound: playback, status: playbackStatus } = await Audio.Sound.createAsync({
@@ -72,13 +88,19 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 		}
 	}
 
-	const unloadPlayback = () => {
+	/**
+	 * Unload the sound
+	 */
+	const _unloadPlayback = () => {
 		if (playback) {
 			playback.unloadAsync()
 		}
 	}
 
-	const toggleSound = async () => {
+	/**
+	 * Play the sound if not playing, stop if playing
+	 */
+	const _toggleSound = async () => {
 		if (playback) {
 			if (playbackStatus?.isPlaying) {
 				playback.stopAsync()
@@ -88,10 +110,17 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 		}
 	}
 
+	/**
+	 * Function to execute when the playback status updates
+	 * @param {{}} status - new playback status
+	 */
 	const _onPlaybackStatusUpdate = (status) => {
 		setPlaybackStatus(status)
 	}
 
+	/**
+	 * Delete a sound from the library and delete the file from the phone.
+	 */
 	const _deleteSound = () => {
 		if (sound) {
 			dispatch(libraryActions.removeSound({
@@ -102,14 +131,22 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 				idempotent: true
 			})
 
+			// Close the modal after sound is deleted
 			if (onClose) onClose()
 		}
 	}
 
+	/**
+	 * Download a sound from freesound api
+	 */
 	const _downloadSound = () => {
 		if (sound) {
+			// Get a unnique id for the sound
 			const soundId = uuid.v4()
+
+			// Build the uri where to store the file
 			const soundUri = `${FileSystem.documentDirectory}${soundId}.${getFileExtension(sound.uri)}`
+			
 			setIsDownloading(true)
 			FileSystem.downloadAsync(sound.uri, soundUri)
 				.then(({ uri }) => {
@@ -150,7 +187,7 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 
 					{ playback && playbackStatus &&
 						<View style={styles.audioPlayer}>
-							<TouchableOpacity onPress={toggleSound}>
+							<TouchableOpacity onPress={_toggleSound}>
 								<Icon name={playbackStatus.isPlaying ? 'stop' : 'play-arrow' } size={56} color={config.colors.text} />
 							</TouchableOpacity>
 							<Text style={styles.duration}>{ formatAudioDuration(playbackStatus.durationMillis) }</Text>

@@ -3,6 +3,18 @@ import { View, FlatList } from 'react-native'
 
 import SoundCard from './SoundCard'
 
+/**
+ * 
+ * @param {Array} sounds - sounds of the list
+ * @param {'local'|'freesound'} loadFrom - from where the sound is loaded
+ * @param {boolean} isInput - is the list an input
+ * @param {string} selectedItem - currently selected sound id
+ * @param {Function} onChange - function to execute when the selected sound changes
+ * @param {Function} onEndReached - function to execute when scrolling at the
+ * bottom of the list
+ * @param {boolean} refreshing - is the sound list refreshing
+ * @param {{}} style - style of the list
+ */
 const SoundList = ({ sounds, loadFrom, isInput, selectedItem, onChange, onEndReached, refreshing, style }) => {
 	const renderSound = ({ item }) => {
 		return (

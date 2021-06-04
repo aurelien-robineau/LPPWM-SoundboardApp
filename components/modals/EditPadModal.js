@@ -14,6 +14,13 @@ import config from '../../config'
 import { colors } from '../../constants/pads'
 import { formatAudioDuration } from '../../utils'
 
+/**
+ * Modal to edit pad
+ * @param {boolean} visible - is the modal visible
+ * @param {{}} pad - pad to edit
+ * @param {Function} onClose - function to execute when the modal closes
+ * @param {Function} onSave - function to execute when the pad is saved
+ */
 const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 	const availableColors = {...colors}
 	delete availableColors.off
@@ -34,15 +41,19 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 			setColor(pad.color)
 			setSound(sounds.find(s => s.id === pad.sound))
 			setCrop(pad.crop)
-			loadPlayback()
+			_loadPlayback()
 		} else {
-			unloadPlayback()
+			_unloadPlayback()
 		}
 
-		return () => unloadPlayback()
+		return () => _unloadPlayback()
 	}, [pad, visible])
 	
-	const loadPlayback = async (soundId) => {
+	/**
+	 * Load the sound of the pad so it is ready to play
+	 * @param {string} soundId - id of the sound to load
+	 */
+	const _loadPlayback = async (soundId) => {
 		const sound = sounds.find(s => s.id === (soundId ? soundId : pad.sound))
 		if (sound) {
 			try {
@@ -61,13 +72,19 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 		}
 	}
 
-	const unloadPlayback = async () => {
+	/**
+	 * Unload the sound
+	 */
+	const _unloadPlayback = async () => {
 		if (playback) {
 			await playback.unloadAsync()
 		}
 	}
 
-	const toggleSound = async () => {
+	/**
+	 * Play or stop the sound
+	 */
+	const _toggleSound = async () => {
 		if (playback) {
 			if (playbackStatus?.isPlaying) {
 				playback.stopAsync()
@@ -83,6 +100,12 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 		}
 	}
 
+	/**
+	 * Function the execute when the playback status updates
+	 * @param {{}} status - new status
+	 * @param {*} playback - current playback
+	 * @param {*} crop - current crop
+	 */
 	const _onPlaybackStatusUpdate = (status, playback, crop) => {
 		if (crop && status.positionMillis >= crop[1]) {
 			playback.stopAsync()
@@ -91,7 +114,10 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 		setPlaybackStatus(status)
 	}
 
-	const savePad = () => {
+	/**
+	 * Save the pad
+	 */
+	const _savePad = () => {
 		if (typeof onSave === 'function')
 			onSave({ color, sound: sound.id, crop })
 		
@@ -99,12 +125,16 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 			onClose()
 	}
 
-	const onSoundChange = async (soundId) => {
+	/**
+	 * Function to execute when the sound changes
+	 * @param {string} soundId - the new sound id
+	 */
+	const _onSoundChange = async (soundId) => {
 		setSound(sounds.find(s => s.id === soundId))
 		setIsSelectSoundSheetOpen(false)
 
-		await unloadPlayback()
-		loadPlayback(soundId)
+		await _unloadPlayback()
+		_loadPlayback(soundId)
 		setCrop(null)
 	}
 
@@ -114,7 +144,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 				title="Modifier le pad"
 				visible={visible}
 				onClose={onClose}
-				onSave={savePad}
+				onSave={_savePad}
 			>
 				<Text style={styles.inputLabel}>Couleur</Text>
 				<ColorInput
@@ -154,19 +184,20 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 
 										setCrop(newCrop)
 
-											playback.setOnPlaybackStatusUpdate(
-												(status) => _onPlaybackStatusUpdate(
-													status,
-													playback,
-													newCrop
-												)
+										// Update the playback status method so it has the latest playback and crop
+										playback.setOnPlaybackStatusUpdate(
+											(status) => _onPlaybackStatusUpdate(
+												status,
+												playback,
+												newCrop
 											)
+										)
 									}}
 								/>
 							</View>
 
 							<Text style={styles.inputLabel}>Écouter</Text>
-							<TouchableOpacity onPress={toggleSound}>
+							<TouchableOpacity onPress={_toggleSound}>
 								<Icon
 									name={playbackStatus.isPlaying ? 'stop' : 'play-arrow'}
 									size={46}
@@ -186,7 +217,7 @@ const EditPadModal = ({ visible, pad, onClose, onSave }) => {
 				<SelectSoundBottomSheet
 					isOpen={isSelectSoundSheetOpen}
 					initialSoundId={sound.id}
-					onSoundChange={onSoundChange}
+					onSoundChange={_onSoundChange}
 					onOpen={() => setIsSelectSoundSheetOpen(true)}
 					onClose={() => setIsSelectSoundSheetOpen(false)}
 				/>

@@ -8,6 +8,14 @@ import config from '../../config'
 import { types } from '../../constants/sounds'
 import FreeSoundApi from '../../apis/FreeSoundApi'
 
+/**
+ * Card to display a sound
+ * @param {*} soundId - id of the sound ton display
+ * @param {*} loadFrom - from where is the sound loaded
+ * @param {*} isSelectable - is the card selectable
+ * @param {*} selected - is the card selected
+ * @param {*} onChange - function to call when the card selection status changes
+ */
 const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 	const [sound, setSound] = useState(null)
 	const [infoModalVisible, setInfoModalVisible] = useState(false)
@@ -28,7 +36,10 @@ const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 		}
 	}, [soundId, loadFrom])
 
-	const _onPadPressed = () => {
+	/**
+	 * Function to execute when the pad is pressed
+	 */
+	const _onCardPressed = () => {
 		if (isSelectable && onChange)
 			onChange(!selected)
 	}
@@ -36,7 +47,7 @@ const SoundCard = ({ soundId, loadFrom, isSelectable, selected, onChange }) => {
 	return sound && (
 		<>
 			<Pressable
-				onPress={_onPadPressed}
+				onPress={_onCardPressed}
 			>
 				<View style={styles.card}>
 					{ isSelectable &&

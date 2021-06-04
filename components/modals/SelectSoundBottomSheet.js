@@ -13,6 +13,14 @@ const soundListHeight =
 	- getStatusBarHeight()
 	- 150
 
+/**
+ * Bottom sheet to select a sound from a list
+ * @param {string} initialSoundId - id if the selected sound
+ * @param {*} isOpen - is the bottom sheet openned
+ * @param {*} onOpen - function the execute when the bottom sheet opens
+ * @param {*} onClose - function the execute when the bottom sheet closes
+ * @param {*} onSoundChange  - function the execute when the selected sound changes
+ */
 const SelectSoundBottomSheet = ({ initialSoundId, isOpen, onOpen, onClose, onSoundChange }) => {
 	const refRBSheet = useRef()
 

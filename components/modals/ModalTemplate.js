@@ -4,6 +4,14 @@ import { Icon } from 'react-native-elements'
 
 import config from '../../config'
 
+/**
+ * Template for edit modals
+ * @param {string} title - title of the modal
+ * @param {boolean} visible - is the modal visible
+ * @param {Function} onClose - function to execute when the modal closes
+ * @param {Function} onSave - function to execute when the modal is saved
+ * @param {JSX} children - children JSX
+ */
 const ModalTemplate = ({ title, visible, onClose, onSave, children }) => {
 	const [isVisible, setIsVisible] = useState(false)
 

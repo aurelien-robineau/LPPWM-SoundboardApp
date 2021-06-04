@@ -5,6 +5,13 @@ import config from '../../config'
 import SamplerSizeInput from '../inputs/SamplerSizeInput'
 import ModalTemplate from './ModalTemplate'
 
+/**
+ * 
+ * @param {*} visible
+ * @param {*} sampler
+ * @param {*} onClose
+ * @param {*} onSave
+ */
 const EditSamplerModal = ({ visible, sampler, onClose, onSave }) => {
 	const [numberOfRows, setNumberOfRows] = useState(sampler?.numberOfRows)
 	const [numberOfColumns, setNumberOfColumns] = useState(sampler?.numberOfColumns)

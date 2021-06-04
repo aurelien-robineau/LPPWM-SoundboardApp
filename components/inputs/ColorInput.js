@@ -6,6 +6,12 @@ import config from '../../config'
 
 const padLightImage = require('../../assets/img/pad_light.png')
 
+/**
+ * Input to select a pad color
+ * @param {[]} items - available colors
+ * @param {string} value - selected color
+ * @param {Function} onChange - function to execute when the selected color changes
+ */
 const ColorInput = ({ items, value, onChange }) => {
 	const screenWidth = useWindowDimensions().width
 

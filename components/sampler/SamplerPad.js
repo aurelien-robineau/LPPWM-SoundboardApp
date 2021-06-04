@@ -6,17 +6,28 @@ import { colors } from '../../constants/pads'
 
 const padLightImage = require('../../assets/img/pad_light.png')
 
+/**
+ * Pad of a sampler
+ * @param {number} size - Size in px of the pad (height and width)
+ * @param {string} color - color of the pad
+ * @param {{}} soundInfos - infos on the pad sound
+ * @param {Array|null} crop - crop sound data
+ * @param {Function} onEdit - callback on pad edited
+ */
 const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
 	const [playback, setPlayback] = useState(null)
 
 	useEffect(() => {
-		loadSound()
+		_loadSound()
 	}, [soundInfos])
 
-	useEffect(() => unloadSound, [playback])
+	useEffect(() => _unloadSound, [playback])
 
-	const loadSound = async () => {
-		unloadSound()
+	/**
+	 * Load and init the sound file to get ready to play
+	 */
+	const _loadSound = async () => {
+		_unloadSound()
 		try {
 			if (soundInfos) {
 				const { sound: playback } = await Audio.Sound.createAsync({
@@ -33,19 +44,31 @@ const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
 		}
 	}
 
-	const unloadSound = () => {
+	/**
+	 * Unload the sound
+	 */
+	const _unloadSound = () => {
 		if (playback) {
 			playback.unloadAsync()
 		}
 	}
 
-	const playSound = async () => {
+	/**
+	 * Play the sound with crop
+	 */
+	const _playSound = async () => {
 		if (playback) {
 			playback.setPositionAsync(crop ? crop[0] : 0)
 			playback.playAsync()
 		}
 	}
 
+	/**
+	 * Callback when playback status updates
+	 * @param {{}} status - new playback status
+	 * @param {{}} playback - current playback
+	 * @param {{}} crop - how to crop the sound
+	 */
 	const _onPlaybackStatusUpdate = (status, playback, crop) => {
 		if (crop && status.positionMillis >= crop[1]) {
 			try {
@@ -56,7 +79,7 @@ const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
 
 	return (
 		<TouchableOpacity
-			onPress={playSound}
+			onPress={_playSound}
 			onLongPress={() => onEdit ? onEdit() : null}
 			activeOpacity={playback ? 0.5 : 1}
 		>

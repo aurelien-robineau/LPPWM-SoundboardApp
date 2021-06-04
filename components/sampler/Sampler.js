@@ -4,6 +4,13 @@ import { useSelector } from 'react-redux'
 
 import SamplerPad from './SamplerPad'
 
+/**
+ * Sampler view
+ * @param {{}} sampler - sampler to display
+ * @param {number} index - index of the sampler in the redux store
+ * @param {Function} onPadEdit - function to execute when a pad is edited
+ * @param {boolean} show - is the sampler displayed
+ */
 const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	const [pads, setPads] = useState(pads)
 	const [visible, setVisible] = useState(show)
@@ -13,33 +20,38 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	const screenWidth = useWindowDimensions().width
 
 	useEffect(() => {
-		generatePads()
+		_generatePads()
 	}, [sampler])
 
 	useEffect(() => {
 		setVisible(show)
 	}, [show])
 
-	const getPadSize = () => {
+	/**
+	 * Compute the pad size so sampler takes all screen width
+	 * @returns {number} - the pad size in px
+	 */
+	const _getPadSize = () => {
 		return (screenWidth - 20) / sampler.numberOfColumns - ((sampler.numberOfColumns - 1) * 5) / sampler.numberOfColumns 
 	}
 
-	const getSoundById = (id) => {
-		return sounds.find(sound => sound.id === id) ?? null
-	}
-
-	const generatePads = async () => {
+	/**
+	 * Generate the pad for the SamplerPad component from the pad object
+	 */
+	const _generatePads = async () => {
 		const pads = []
 		const numberOfPads = sampler.numberOfRows * sampler.numberOfColumns
+
+		// For all pads of the sampler, generate the pad
 		for (let i = 0; i < numberOfPads; i++) {
 			const pad = sampler.pads[i]
 			pads.push({
 				id: Date.now() + i,
-				size: getPadSize(),
+				size: _getPadSize(),
 				index: i,
 				samplerIndex: index,
 				color: pad.color,
-				soundInfos: getSoundById(pad.sound),
+				soundInfos: sounds.find(sound => sound.id === pad.sound) ?? null,
 				sound: pad.sound,
 				crop: pad.crop
 			})

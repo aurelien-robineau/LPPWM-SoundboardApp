@@ -1,3 +1,6 @@
+/**
+ * Available pad colors
+ */
 export const colors = {
 	red: '#ff3d3d',
 	orange: '#ffa12e',
@@ -10,7 +13,12 @@ export const colors = {
 	off: '#3b3b3b'
 }
 
+/**
+ * Default pad config
+ */
 export const defaultConfig = {
 	color: 'orange',
-	sound: 'default-clap-808'
+	sound: 'default-clap-808',
+	uri: null,
+	crop: null
 }

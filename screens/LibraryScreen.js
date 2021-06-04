@@ -20,6 +20,9 @@ const soundListHeight =
 	- getStatusBarHeight()
 	- 290
 
+/**
+ * Screen to manage library
+ */
 const LibraryScreen = () => {
 	const [isRecorderOpen, setIsRecorderOpen] = useState(false)
 	const [isDownloadSheetOpen, setIsDownloadSheetOpen] = useState(false)
@@ -31,15 +34,22 @@ const LibraryScreen = () => {
 	let recordPermissionsGranted = false
 
 	useEffect(() => {
-		initPermissions()
+		_initPermissions()
 	}, [])
 
-	const initPermissions = async () => {
+	/**
+	 * Get needed permissions status
+	 */
+	const _initPermissions = async () => {
 		const permissions = await Audio.getPermissionsAsync()
 		recordPermissionsGranted = permissions.granted
 	}
 
-	const openRecordBottomSheet = async () => {
+	/**
+	 * Open the recording bottom sheet. Ask recording permissions if not granted
+	 * yet.
+	 */
+	const _openRecordBottomSheet = async () => {
 		if (!recordPermissionsGranted) {
 			const permissions = await Audio.requestPermissionsAsync()
 			recordPermissionsGranted = permissions.granted
@@ -50,11 +60,19 @@ const LibraryScreen = () => {
 		setIsRecorderOpen(true)
 	}
 
-	const openDownloadBottomSheet = async () => {
+	/**
+	 * Open the download sound bottom sheet
+	 */
+	const _openDownloadBottomSheet = async () => {
 		setIsDownloadSheetOpen(true)
 	}
 
-	const onRecordSave = (uri, name) => {
+	/**
+	 * Save a record to the phone storage and into the redux store.
+	 * @param {string} uri - temporary uri of the record
+	 * @param {string} name - name of the record
+	 */
+	const _onRecordSave = (uri, name) => {
 		setIsRecorderOpen(false)
 
 		const soundId = uuid.v4()
@@ -77,11 +95,11 @@ const LibraryScreen = () => {
 		<>
 			<View style={styles.container}>
 				<View style={styles.header}>
-					<TouchableOpacity style={styles.button} onPress={openDownloadBottomSheet}>
+					<TouchableOpacity style={styles.button} onPress={_openDownloadBottomSheet}>
 						<Icon name="search" size={26} color={config.colors.text} />
 						<Text style={styles.buttonText}>Rechercher en ligne</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.button} onPress={openRecordBottomSheet}>
+					<TouchableOpacity style={styles.button} onPress={_openRecordBottomSheet}>
 						<Icon name="mic" size={26} color={config.colors.text} />
 						<Text style={styles.buttonText}>Enregistrer un son</Text>
 					</TouchableOpacity>
@@ -97,7 +115,7 @@ const LibraryScreen = () => {
 
 			<RecorderBottomSheet
 				isOpen={isRecorderOpen}
-				onSave={onRecordSave}
+				onSave={_onRecordSave}
 				onClose={() => setIsRecorderOpen(false)}
 				onOpen={() => setIsRecorderOpen(true)}
 			/>

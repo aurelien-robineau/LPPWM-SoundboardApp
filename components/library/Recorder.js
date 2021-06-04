@@ -7,11 +7,18 @@ import config from '../../config'
 
 const audioWaves = require('../../assets/img/audio-waves.gif')
 
+/**
+ * Record a sound
+ * @param {Function} onRecordEnd - function to call when the record ends
+ */
 const Recorder = ({ onRecordEnd }) => {
 	const [recording, setRecording] = useState(false)
 	const [record, setRecord] = useState(null)
 
-	async function startRecording() {
+	/**
+	 * Start the recording
+	 */
+	async function _startRecording() {
 		try {
 			await Audio.setAudioModeAsync({
 				allowsRecordingIOS: true,
@@ -27,7 +34,10 @@ const Recorder = ({ onRecordEnd }) => {
 		} catch (err) {}
 	}
 
-	async function stopRecording() {
+	/**
+	 * Stop the recording
+	 */
+	async function _stopRecording() {
 		setRecord(null)
 		setRecording(false)
 
@@ -42,8 +52,8 @@ const Recorder = ({ onRecordEnd }) => {
 		<View style={[styles.container, recording && styles.recordingContainer]}>
 			<Pressable
 				style={styles.iconWrapper}
-				onPressIn={startRecording}
-				onPressOut={stopRecording}
+				onPressIn={_startRecording}
+				onPressOut={_stopRecording}
 			>
 				<Icon name="mic" size={32} color={config.colors.text} />
 			</Pressable>

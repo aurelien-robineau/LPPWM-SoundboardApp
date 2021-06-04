@@ -14,6 +14,12 @@ const soundListHeight =
 	- getStatusBarHeight()
 	- 140
 
+/**
+ * Bottom sheet to search and download sounds from Freesound
+ * @param {*} isOpen - is the bottom sheet openned
+ * @param {*} onOpen - function to execute when the bottom sheet opens
+ * @param {*} onClose - function to execute when the bottom sheet closes
+ */
 const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 	const [research, setResearch] = useState('')
 	const [sounds, setSounds] = useState([])
@@ -30,6 +36,9 @@ const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 		}
 	}, [isOpen])
 
+	/**
+	 * Load sounds from freesound
+	 */
 	const _handleResearch = () => {
 		if (research) {
 			setRefreshingSounds(true)
@@ -48,6 +57,9 @@ const DownloadSoundBottomSheet = ({ isOpen, onOpen, onClose }) => {
 		}
 	}
 
+	/**
+	 * Load more sounds from Freesound
+	 */
 	const _loadMoreSounds = () => {
 		if (nextRequest) {
 			setRefreshingSounds(true)

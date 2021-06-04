@@ -10,6 +10,9 @@ import config from '../config'
 import { samplersActions } from '../store/samplersSlice'
 import EditSamplerModal from '../components/modals/EditSamplerModal'
 
+/**
+ * Sreen to display the samplers
+ */
 const SamplerScreen = () => {
 	const [selectedSamplerIndex, setSelectedSamplerIndex] = useState(0)
 	const [selectedPad, setSelectedPad] = useState(null)
@@ -19,17 +22,30 @@ const SamplerScreen = () => {
 	const dispatch = useDispatch()
 	const samplers = useSelector(state => state.samplers.samplers)
 
-	const openEditPadModal = (pad) => {
+	/**
+	 * Open the modal to edit the pad
+	 * @param {{}} pad - pad to edit
+	 */
+	const _openEditPadModal = (pad) => {
 		setSelectedPad(pad)
 		setPadModalVisible(true)
 	}
 
-	const openEditSamplerModal = (samplerIndex) => {
+	/**
+	 * Open the modal to edit the sampler
+	 * @param {number} samplerIndex - index in the store of the sampler to edit
+	 */
+	const _openEditSamplerModal = (samplerIndex) => {
 		setSelectedSamplerIndex(samplerIndex)
 		setSamplerModalVisible(true)
 	}
 
-	const updatePad = (pad, newPad) => {
+	/**
+	 * Dispatch an action to update a pad
+	 * @param {{}} pad - pad to update
+	 * @param {{}} newPad - new pad data
+	 */
+	const _updatePad = (pad, newPad) => {
 		dispatch(samplersActions.updatePad({
 			samplerIndex: pad.samplerIndex,
 			padIndex: pad.index,
@@ -37,7 +53,12 @@ const SamplerScreen = () => {
 		}))
 	}
 
-	const updateSampler = (samplerIndex, newSampler) => {
+	/**
+	 * Dispatch an action to update a sampler
+	 * @param {number} samplerIndex - index in the store of the sampler to update
+	 * @param {{}} newSampler - new sampler data
+	 */
+	const _updateSampler = (samplerIndex, newSampler) => {
 		dispatch(samplersActions.updateSamplerSize({
 			samplerIndex: samplerIndex,
 			numberOfRows: newSampler.numberOfRows,
@@ -48,6 +69,7 @@ const SamplerScreen = () => {
 	return (
 		<>
 			<View style={styles.container}>
+				{/* Sampler selector */}
 				<View style={styles.samplerSelectorContainer}>
 					{ samplers.map((sampler, index) => (
 						<SamplerCard
@@ -55,10 +77,12 @@ const SamplerScreen = () => {
 							name={sampler.name}
 							selected={selectedSamplerIndex === index}
 							onPress={() => setSelectedSamplerIndex(index)}
-							onLongPress={() => openEditSamplerModal(index)}
+							onLongPress={() => _openEditSamplerModal(index)}
 						/>
 					))}
 				</View>
+
+				{/* Samplers */}
 				<View style={styles.samplerContainer}>
 					{ samplers.map((sampler, index) => (
 						<Sampler
@@ -66,24 +90,26 @@ const SamplerScreen = () => {
 							sampler={sampler}
 							index={index}
 							show={index === selectedSamplerIndex}
-							onPadEdit={pad => openEditPadModal(pad)}
+							onPadEdit={pad => _openEditPadModal(pad)}
 						/>
 					))}
 				</View>
 			</View>
 			
+			{/* Edit pad modal */}
 			<EditPadModal
 				pad={selectedPad}
 				visible={padModalVisible}
 				onClose={() => setPadModalVisible(false)}
-				onSave={newPad => updatePad(selectedPad, newPad)}
+				onSave={newPad => _updatePad(selectedPad, newPad)}
 			/>
 
+			{/* Edit sampler modal */}
 			<EditSamplerModal
 				sampler={samplers[selectedSamplerIndex]}
 				visible={samplerModalVisible}
 				onClose={() => setSamplerModalVisible(false)}
-				onSave={newSampler => updateSampler(selectedSamplerIndex, newSampler)}
+				onSave={newSampler => _updateSampler(selectedSamplerIndex, newSampler)}
 			/>
 		</>
 	)

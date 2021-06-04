@@ -33,10 +33,8 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	}, [isVisible])
 
 	const loadSoundInfos = async () => {
-		let sound = null
 		if (loadFrom === 'local') {
-			sound = sounds.find(s => s.id === soundId)
-			setSound(sound)
+			setSound(sounds.find(s => s.id === soundId))
 		}
 		else if (loadFrom === 'freesound') {
 			FreeSoundApi.getSoundInfos(soundId)
@@ -52,7 +50,6 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 	}
 
 	const loadPlayback = async () => {
-		console.log(sound)
 		if (sound) {
 			try {
 				const { sound: playback, status: playbackStatus } = await Audio.Sound.createAsync({
@@ -62,7 +59,6 @@ const SoundInfoModal = ({ isVisible, soundId, loadFrom, onClose }) => {
 				setPlayback(playback)
 				setPlaybackStatus(playbackStatus)
 			} catch (e) {
-				console.warn(e)
 				setPlayback(null)
 				setPlaybackStatus(null)
 			}

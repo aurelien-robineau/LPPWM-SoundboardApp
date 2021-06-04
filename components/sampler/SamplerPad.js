@@ -6,36 +6,54 @@ import { colors } from '../../constants/pads'
 
 const padLightImage = require('../../assets/img/pad_light.png')
 
-const SamplerPad = ({ size, color, soundUri, onEdit }) => {
-	const [sound, setSound] = useState(null)
+const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
+	const [playback, setPlayback] = useState(null)
 
 	useEffect(() => {
 		loadSound()
-	}, [soundUri])
+	}, [soundInfos])
 
-	useEffect(() => unloadSound, [sound])
+	useEffect(() => unloadSound, [playback])
 
 	const loadSound = async () => {
 		unloadSound()
 		try {
-			if (soundUri) {
-				const { sound } = await Audio.Sound.createAsync({ uri: soundUri })
-				setSound(sound)
+			if (soundInfos) {
+				const { sound: playback } = await Audio.Sound.createAsync({
+					uri: soundInfos.uri },
+					null,
+					_onPlaybackStatusUpdate
+				)
+				setPlayback(playback)
 			}
 		} catch (e) {
-			setSound(null)
+			setPlayback(null)
 		}
 	}
 
 	const unloadSound = () => {
-		if (sound) {
-			sound.unloadAsync()
+		if (playback) {
+			playback.unloadAsync()
 		}
 	}
 
 	const playSound = async () => {
-		if (sound) {
-			sound.replayAsync()
+		if (playback) {
+			if (crop) {
+				playback.setPositionAsync(crop[0])
+				playback.playAsync()
+			}
+			else {
+				playback.replayAsync()
+			}
+		}
+	}
+
+	const _onPlaybackStatusUpdate = (status) => {
+		if (crop && status.positionMillis >= crop[1]) {
+			try {
+				playback.pauseAsync()
+			} catch (e) {}
 		}
 	}
 
@@ -43,9 +61,9 @@ const SamplerPad = ({ size, color, soundUri, onEdit }) => {
 		<TouchableOpacity
 			onPress={playSound}
 			onLongPress={() => onEdit ? onEdit() : null}
-			activeOpacity={sound ? 0.5 : 1}
+			activeOpacity={playback ? 0.5 : 1}
 		>
-			<View style={[styles.pad, { width: size, height: size, backgroundColor: sound ? colors[color] : colors.off }]}>
+			<View style={[styles.pad, { width: size, height: size, backgroundColor: playback ? colors[color] : colors.off }]}>
 				<Image source={padLightImage} style={styles.lightImage} />
 			</View>
 		</TouchableOpacity>

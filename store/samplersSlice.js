@@ -10,39 +10,48 @@ const initialState = {
 			pads: [
 				{
 					color: 'cyan',
-					sound: 'default-openhat-808'
+					sound: 'default-openhat-808',
+					crop: null
 				},
 				{
 					color: 'blue',
-					sound: 'default-hihat-808'
+					sound: 'default-hihat-808',
+					crop: null
 				},
 				{
 					color: 'pink',
-					sound: 'default-snare-808'
+					sound: 'default-snare-808',
+					crop: null
 				},
 				{
 					color: 'purple',
-					sound: 'default-clap-808'
+					sound: 'default-clap-808',
+					crop: null
 				},
 				{
 					color: 'orange',
-					sound: 'default-tom-rototom-808'
+					sound: 'default-tom-rototom-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				}
 			]
 		},
@@ -53,39 +62,48 @@ const initialState = {
 			pads: [
 				{
 					color: 'cyan',
-					sound: 'default-openhat-808'
+					sound: 'default-openhat-808',
+					crop: null
 				},
 				{
 					color: 'blue',
-					sound: 'default-hihat-808'
+					sound: 'default-hihat-808',
+					crop: null
 				},
 				{
 					color: 'pink',
-					sound: 'default-snare-808'
+					sound: 'default-snare-808',
+					crop: null
 				},
 				{
 					color: 'purple',
-					sound: 'default-clap-808'
+					sound: 'default-clap-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				}
 			]
 		},
@@ -96,39 +114,48 @@ const initialState = {
 			pads: [
 				{
 					color: 'cyan',
-					sound: 'default-openhat-808'
+					sound: 'default-openhat-808',
+					crop: null
 				},
 				{
 					color: 'blue',
-					sound: 'default-hihat-808'
+					sound: 'default-hihat-808',
+					crop: null
 				},
 				{
 					color: 'pink',
-					sound: 'default-snare-808'
+					sound: 'default-snare-808',
+					crop: null
 				},
 				{
 					color: 'purple',
-					sound: 'default-clap-808'
+					sound: 'default-clap-808',
+					crop: null
 				},
 				{
 					color: 'orange',
-					sound: 'default-tom-rototom-808'
+					sound: 'default-tom-rototom-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				},
 				{
 					color: 'red',
-					sound: 'default-kick-808'
+					sound: 'default-kick-808',
+					crop: null
 				}
 			]
 		}

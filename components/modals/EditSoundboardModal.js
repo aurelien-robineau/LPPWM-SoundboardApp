@@ -2,31 +2,31 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text } from 'react-native'
 
 import config from '../../config'
-import SamplerSizeInput from '../inputs/SamplerSizeInput'
+import SoundboardSizeInput from '../inputs/SoundboardSizeInput'
 import ModalTemplate from './ModalTemplate'
 
 /**
  * 
  * @param {*} visible
- * @param {*} sampler
+ * @param {*} soundboard
  * @param {*} onClose
  * @param {*} onSave
  */
-const EditSamplerModal = ({ visible, sampler, onClose, onSave }) => {
-	const [numberOfRows, setNumberOfRows] = useState(sampler?.numberOfRows)
-	const [numberOfColumns, setNumberOfColumns] = useState(sampler?.numberOfColumns)
+const EditSoundboardModal = ({ visible, soundboard, onClose, onSave }) => {
+	const [numberOfRows, setNumberOfRows] = useState(soundboard?.numberOfRows)
+	const [numberOfColumns, setNumberOfColumns] = useState(soundboard?.numberOfColumns)
 
 	useEffect(() => {
-		setNumberOfRows(sampler?.numberOfRows)
-		setNumberOfColumns(sampler?.numberOfColumns)
-	}, [sampler])
+		setNumberOfRows(soundboard?.numberOfRows)
+		setNumberOfColumns(soundboard?.numberOfColumns)
+	}, [soundboard])
 
 	const updateValues = (dimensions) => {
 		setNumberOfRows(dimensions.numberOfRows)
 		setNumberOfColumns(dimensions.numberOfColumns)
 	}
 
-	const saveSampler = () => {
+	const saveSoundboard = () => {
 		if (typeof onSave === 'function')
 			onSave({
 				numberOfRows: parseInt(numberOfRows),
@@ -39,16 +39,16 @@ const EditSamplerModal = ({ visible, sampler, onClose, onSave }) => {
 
     return (
 		<ModalTemplate
-			title="Modifier le sampler"
+			title="Modifier la soundboard"
 			visible={visible}
 			onClose={onClose}
-			onSave={saveSampler}
+			onSave={saveSoundboard}
 		>
 			<Text style={styles.inputLabel}>Format</Text>
-			<SamplerSizeInput
+			<SoundboardSizeInput
 				dimensions={{
-					numberOfRows: sampler.numberOfRows,
-					numberOfColumns: sampler.numberOfColumns
+					numberOfRows: soundboard.numberOfRows,
+					numberOfColumns: soundboard.numberOfColumns
 				}}
 				onChange={dimensions => updateValues(dimensions)}
 			/>
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default EditSamplerModal
+export default EditSoundboardModal

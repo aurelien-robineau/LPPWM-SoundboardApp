@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { View, useWindowDimensions, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux'
 
-import SamplerPad from './SamplerPad'
+import SoundboardPad from './SoundboardPad'
 
 /**
- * Sampler view
- * @param {{}} sampler - sampler to display
- * @param {number} index - index of the sampler in the redux store
+ * Soundboard view
+ * @param {{}} soundboard - soundboard to display
+ * @param {number} index - index of the soundboard in the redux store
  * @param {Function} onPadEdit - function to execute when a pad is edited
- * @param {boolean} show - is the sampler displayed
+ * @param {boolean} show - is the soundboard displayed
  */
-const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
+const Soundboard = ({ soundboard, index, onPadEdit, show = true }) => {
 	const [pads, setPads] = useState(pads)
 	const [visible, setVisible] = useState(show)
 
@@ -21,35 +21,35 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 
 	useEffect(() => {
 		_generatePads()
-	}, [sampler])
+	}, [soundboard])
 
 	useEffect(() => {
 		setVisible(show)
 	}, [show])
 
 	/**
-	 * Compute the pad size so sampler takes all screen width
+	 * Compute the pad size so soundboard takes all screen width
 	 * @returns {number} - the pad size in px
 	 */
 	const _getPadSize = () => {
-		return (screenWidth - 20) / sampler.numberOfColumns - ((sampler.numberOfColumns - 1) * 5) / sampler.numberOfColumns 
+		return (screenWidth - 20) / soundboard.numberOfColumns - ((soundboard.numberOfColumns - 1) * 5) / soundboard.numberOfColumns 
 	}
 
 	/**
-	 * Generate the pad for the SamplerPad component from the pad object
+	 * Generate the pad for the SoundboardPad component from the pad object
 	 */
 	const _generatePads = async () => {
 		const pads = []
-		const numberOfPads = sampler.numberOfRows * sampler.numberOfColumns
+		const numberOfPads = soundboard.numberOfRows * soundboard.numberOfColumns
 
-		// For all pads of the sampler, generate the pad
+		// For all pads of the soundboard, generate the pad
 		for (let i = 0; i < numberOfPads; i++) {
-			const pad = sampler.pads[i]
+			const pad = soundboard.pads[i]
 			pads.push({
 				id: Date.now() + i,
 				size: _getPadSize(),
 				index: i,
-				samplerIndex: index,
+				soundboardIndex: index,
 				color: pad.color,
 				soundInfos: sounds.find(sound => sound.id === pad.sound) ?? null,
 				sound: pad.sound,
@@ -61,10 +61,10 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 	}
 
 	return (
-		<View style={[styles.sampler, visible ? null : styles.hidden]}>
+		<View style={[styles.soundboard, visible ? null : styles.hidden]}>
 			{ pads && pads.map(pad => (
 				<View style={styles.padWrapper} key={pad.id}>
-					<SamplerPad {...pad} onEdit={() => typeof onPadEdit === 'function' ? onPadEdit(pad) : null} />
+					<SoundboardPad {...pad} onEdit={() => typeof onPadEdit === 'function' ? onPadEdit(pad) : null} />
 				</View>
 			)) }
 		</View>
@@ -72,7 +72,7 @@ const Sampler = ({ sampler, index, onPadEdit, show = true }) => {
 }
 
 const styles = StyleSheet.create({
-	sampler: {
+	soundboard: {
 		display: 'flex',
 		flexDirection: 'row',
 		flexWrap: 'wrap',
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default Sampler
+export default Soundboard

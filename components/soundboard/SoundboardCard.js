@@ -4,14 +4,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import config from '../../config'
 
 /**
- * Card to select the active sampler
- * @param {string} name - name if the sampler
- * @param {boolean} selected - is this sampler selected
+ * Card to select the active soundboard
+ * @param {string} name - name if the soundboard
+ * @param {boolean} selected - is this soundboard selected
  * @param {Function} onPress - function to execute on press
  * @param {Function} onLongPress - function to execute on long press
  * @returns 
  */
-const SamplerCard = ({ name, selected, onPress, onLongPress }) => {
+const SoundboardCard = ({ name, selected, onPress, onLongPress }) => {
 	return (
 		<TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
 			<View style={[styles.card, selected ? styles.selected : null]}>
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default SamplerCard
+export default SoundboardCard

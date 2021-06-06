@@ -2,7 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import samplersReducer from './samplersSlice'
+import soundboardsReducer from './soundboardsSlice'
 import libraryReducer from './librarySlice'
 
 const libraryPersistConfig = {
@@ -13,20 +13,20 @@ const libraryPersistConfig = {
 }
 
 
-const samplersPersistConfig = {
-	key: 'samplers',
+const soundboardsPersistConfig = {
+	key: 'soundboards',
 	version: 1,
 	storage: AsyncStorage,
 	stateReconciler: hardSet,
 }
 
 const persistedLibraryReducer = persistReducer(libraryPersistConfig, libraryReducer)
-const persistedSamplersReducer = persistReducer(samplersPersistConfig, samplersReducer)
+const persistedSoundboardsReducer = persistReducer(soundboardsPersistConfig, soundboardsReducer)
 
 const store = configureStore({
 	reducer: {
 		library: persistedLibraryReducer,
-		samplers: persistedSamplersReducer
+		soundboards: persistedSoundboardsReducer
 	},
 	middleware: getDefaultMiddleware({
 		serializableCheck: {

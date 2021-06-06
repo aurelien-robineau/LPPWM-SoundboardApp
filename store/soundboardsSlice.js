@@ -2,16 +2,16 @@ import { createSlice } from '@reduxjs/toolkit'
 import { defaultConfig as defaultPad } from '../constants/pads'
 
 /**
- * Initial state for the samplers slice
+ * Initial state for the soundboards slice
  */
 const initialState = {
 	/**
-	 * List of available samplers. The number of samplers cannot be changed.
-	 * Sampler object :
-	 *	name {String} - name of the sampler
-	 *	numberOfRows {Number} - number of pad rows of the sampler
-	 *	numberOfColumns {Number} - number of pad columns of the sampler
-	 *	pads {Array} - list of the sampler's pads. Must be of size numberOfRows * numberOfColumns
+	 * List of available soundboards. The number of soundboards cannot be changed.
+	 * Soundboard object :
+	 *	name {String} - name of the soundboard
+	 *	numberOfRows {Number} - number of pad rows of the soundboard
+	 *	numberOfColumns {Number} - number of pad columns of the soundboard
+	 *	pads {Array} - list of the soundboard's pads. Must be of size numberOfRows * numberOfColumns
 	 *
 	 * Pad object :
 	 * 	color {String} - color of the pad (valid colors in the /constants/pads.js file)
@@ -21,7 +21,7 @@ const initialState = {
 	 * 	position in milliseconds when playing the sound, he second is the ending
 	 * 	position.
 	 */
-	samplers: [
+	soundboards: [
 		{
 			name: 'A',
 			numberOfRows: 3,
@@ -181,49 +181,49 @@ const initialState = {
 	]
 }
 
-const samplersSlice = createSlice({
-	name: 'samplers',
+const soundboardsSlice = createSlice({
+	name: 'soundboards',
 	initialState,
 	reducers: {
 		/**
 		 * Update a pad in the store
 		 * @param {{}} state redux state
 		 * @param {{}} action reducer action. Payload must contain the new pad
-		 * values as an object, the sampler index in the store and the pas index
-		 * in the sampler
+		 * values as an object, the soundboard index in the store and the pas index
+		 * in the soundboard
 		 */
 		updatePad(state, action) {
-			const { samplerIndex, padIndex, newValue } = action.payload
-			state.samplers[samplerIndex].pads[padIndex] = newValue
+			const { soundboardIndex, padIndex, newValue } = action.payload
+			state.soundboards[soundboardIndex].pads[padIndex] = newValue
 		},
 
 		/**
-		 * Update the sampler number of rows and number of columns
+		 * Update the soundboard number of rows and number of columns
 		 * @param {{}} state redux state
-		 * @param {{}} action reducer action. Payload must contain the sampler
+		 * @param {{}} action reducer action. Payload must contain the soundboard
 		 * index in the store, the new number of rows and the new number of
 		 * columns
 		 */
-		updateSamplerSize(state, action) {
-			const { samplerIndex, numberOfRows, numberOfColumns } = action.payload
-			const sampler = state.samplers[samplerIndex]
-			sampler.numberOfRows = numberOfRows
-			sampler.numberOfColumns = numberOfColumns
+		updateSoundboardSize(state, action) {
+			const { soundboardIndex, numberOfRows, numberOfColumns } = action.payload
+			const soundboard = state.soundboards[soundboardIndex]
+			soundboard.numberOfRows = numberOfRows
+			soundboard.numberOfColumns = numberOfColumns
 			
-			// Add new pads if the new sampler contains more pads than the
+			// Add new pads if the new soundboard contains more pads than the
 			// previous one
 			for (let i = 0; i < numberOfRows * numberOfColumns; i++) {
-				const pad = sampler.pads[i] ?? defaultPad
-				sampler.pads[i] = pad
+				const pad = soundboard.pads[i] ?? defaultPad
+				soundboard.pads[i] = pad
 			}
 
-			// Removes pads if the new sampler containes less pads than the
+			// Removes pads if the new soundboard containes less pads than the
 			// previous one
-			sampler.pads.splice(numberOfRows * numberOfColumns)
+			soundboard.pads.splice(numberOfRows * numberOfColumns)
 		}
 	}
 })
 
-export const samplersActions = samplersSlice.actions
+export const soundboardsActions = soundboardsSlice.actions
 
-export default samplersSlice.reducer
+export default soundboardsSlice.reducer

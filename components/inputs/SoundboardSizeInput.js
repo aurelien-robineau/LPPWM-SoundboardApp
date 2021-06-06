@@ -2,25 +2,25 @@ import React, { useState } from 'react'
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native'
 
 import config from '../../config'
-import { samplerSizes } from '../../constants/samplers'
+import { soundboardSizes } from '../../constants/soundboards'
 
 /**
- * Find the current selected size from sampler dimensions
- * @param {*} dimensions - sampler dimensions
+ * Find the current selected size from soundboard dimensions
+ * @param {*} dimensions - soundboard dimensions
  * @returns {{}} the current size
  */
 const findSizeFromDimensions = (dimensions) => {
-	return samplerSizes.find(size => 
+	return soundboardSizes.find(size => 
 		size.numberOfRows === dimensions.numberOfRows && size.numberOfColumns === dimensions.numberOfColumns
 	)
 }
 
 /**
- * Input to select a sampler size
- * @param {{}} dimensions - current sampler dimensions
+ * Input to select a soundboard size
+ * @param {{}} dimensions - current soundboard dimensions
  * @param {Function} onChange - function to execute when the selected size changes
  */
-const SamplerSizeInput = ({ dimensions, onChange }) => {
+const SoundboardSizeInput = ({ dimensions, onChange }) => {
 	const [selected, setSelected] = useState(findSizeFromDimensions(dimensions))
 
 	const onSizePress = (size) => {
@@ -30,7 +30,7 @@ const SamplerSizeInput = ({ dimensions, onChange }) => {
 
 	return (
 		<View style={styles.sizeContainer}>
-			{ samplerSizes.map(size => (
+			{ soundboardSizes.map(size => (
 				<TouchableOpacity key={size.name} activeOpacity={1} onPress={() => onSizePress(size)}>
 					<View
 						style={[
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default SamplerSizeInput
+export default SoundboardSizeInput

@@ -7,14 +7,14 @@ import { colors } from '../../constants/pads'
 const padLightImage = require('../../assets/img/pad_light.png')
 
 /**
- * Pad of a sampler
+ * Pad of a soundboardard
  * @param {number} size - Size in px of the pad (height and width)
  * @param {string} color - color of the pad
  * @param {{}} soundInfos - infos on the pad sound
  * @param {Array|null} crop - crop sound data
  * @param {Function} onEdit - callback on pad edited
  */
-const SamplerPad = ({ size, color, soundInfos, crop, onEdit }) => {
+const SoundboardPad = ({ size, color, soundInfos, crop, onEdit }) => {
 	const [playback, setPlayback] = useState(null)
 
 	useEffect(() => {
@@ -105,4 +105,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default SamplerPad
+export default SoundboardPad

@@ -60,7 +60,8 @@ The pads have the following properties:
 I noticed some issues that I did not had the time to fix. Most of them are irelevant though.
 1. Quickly double-pressing pads will not play the sound twice. Pressing a pad while its sound is playing will stop it first then play it. Theses issues are related to the use of `Audio.Sound.replayAsync()` instead of `Audio.Sound.playAsync()`. Yet I use the first method because it has less delay between the moment the pad is pressed and the moment the sound actually plays.
 2. When loading a lot of sounds from the Freesound API, some may not load. Some optimization and cleanup in `useEffect` function could fix that.
-3. A warning sometimes shows: `cannot update an umounted component`. This could be fixed by adding cleanup in the `useEffect` method that create this warning.
+3. A warning sometimes shows: `Can't perform a React state update on an umounted component.`. This could be fixed by adding cleanup in the `useEffect` method that create this warning.
+4. Two default sounds, the `default-snare-808` and the `default-hihat-808` never play the first time clicking on the pad, but it works from the second time. All the other sounds works normally. I have no idea where this bug may come from.
 
 ## Testing
 The application have been tested only on an android device. Some bugs may be found on iOS.

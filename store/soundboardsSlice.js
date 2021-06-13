@@ -133,47 +133,47 @@ const initialState = {
 			pads: [
 				{
 					color: 'green',
-					sound: 'default-snare-808',
+					sound: 'default-tom-rototom-808',
 					crop: null
 				},
 				{
 					color: 'blue',
-					sound: 'default-hihat-808',
+					sound: 'default-openhat-808',
 					crop: null
 				},
 				{
 					color: 'green',
-					sound: 'default-snare-808',
+					sound: 'default-tom-rototom-808',
 					crop: null
 				},
 				{
 					color: 'blue',
-					sound: 'default-hihat-808',
+					sound: 'default-openhat-808',
 					crop: null
 				},
 				{
 					color: 'green',
-					sound: 'default-snare-808',
+					sound: 'default-tom-rototom-808',
 					crop: null
 				},
 				{
 					color: 'blue',
-					sound: 'default-hihat-808',
+					sound: 'default-openhat-808',
 					crop: null
 				},
 				{
 					color: 'green',
-					sound: 'default-snare-808',
+					sound: 'default-tom-rototom-808',
 					crop: null
 				},
 				{
 					color: 'blue',
-					sound: 'default-hihat-808',
+					sound: 'default-openhat-808',
 					crop: null
 				},
 				{
 					color: 'green',
-					sound: 'default-snare-808',
+					sound: 'default-tom-rototom-808',
 					crop: null
 				},
 			]
